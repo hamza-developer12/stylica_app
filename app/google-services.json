@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "165496152226",
+    "project_id": "stylica-app",
+    "storage_bucket": "stylica-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165496152226:android:8de6c76db86cdf9f8eb7fb",
+        "android_client_info": {
+          "package_name": "com.example.stylica_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpiCihXECD6gYcqmXyGH2GYKpvIG7Wkyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
