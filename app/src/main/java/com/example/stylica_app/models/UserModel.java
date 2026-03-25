@@ -15,7 +15,6 @@ public class UserModel {
     private String email;
     private String role;
 
-    private String domain;
     private String contactNumber;
     private String address;
 
@@ -30,14 +29,13 @@ public class UserModel {
 
 
     public UserModel(){}
-    public UserModel(String userId, String firstName, String lastName, String gender, String email, String role, String domain, String contactNumber, String address, Timestamp createdAt, Timestamp updatedAt) {
+    public UserModel(String userId, String firstName, String lastName, String gender, String email, String role, String contactNumber, String address, Timestamp createdAt, Timestamp updatedAt) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.email = email;
         this.role = role;
-        this.domain = domain;
         this.contactNumber = contactNumber;
         this.address = address;
         this.createdAt = createdAt;
@@ -60,13 +58,8 @@ public class UserModel {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
-    public String getDomain() {
-        return domain;
-    }
 
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
+
 
 
 

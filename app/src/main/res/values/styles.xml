@@ -2,7 +2,15 @@
 <resources>
     <style name="NoTintButton" >
         <item name="android:backgroundTint">@color/primary_light_variant</item>
+    </style>
 
+    <style name="PrimaryButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">58dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="backgroundTint">@color/primary_light_variant</item>
+        <item name="cornerRadius">8dp</item>
     </style>
 
 </resources>

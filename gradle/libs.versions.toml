@@ -1,5 +1,6 @@
 [versions]
-agp = "9.0.1"
+agp = "9.1.0"
+firebaseAppcheckPlayintegrity = "19.0.2"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
@@ -12,12 +13,14 @@ firebaseAuth = "24.0.1"
 firebaseFirestore = "26.1.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.4"
-kotlin = "2.0.21"
+kotlin = "2.2.10"
 composeBom = "2025.07.00"
+playServicesSafetynet = "18.1.0"
 recyclerview = "1.4.0"
 cardview = "1.0.0"
 
 [libraries]
+firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebaseAppcheckPlayintegrity" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -30,6 +33,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+play-services-safetynet = { module = "com.google.android.gms:play-services-safetynet", version.ref = "playServicesSafetynet" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

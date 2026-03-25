@@ -64,4 +64,6 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+    implementation(libs.play.services.safetynet)
+    implementation(libs.firebase.appcheck.playintegrity)
 }

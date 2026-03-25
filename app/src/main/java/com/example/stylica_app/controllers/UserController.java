@@ -17,6 +17,7 @@ public class UserController {
     AuthService authService;
     DatabaseService<UserModel> dbService;
 
+
     public UserController(FirebaseAuth auth, FirebaseFirestore firestore) {
         this.auth = auth;
         this.firestore = firestore;
@@ -29,7 +30,7 @@ public class UserController {
             @Override
             public void onSuccess(FirebaseUser firebaseUser) {
                 String userId = firebaseUser.getUid();
-                UserModel user = new UserModel(userId,firstName,lastName,"", email,"","","","",
+                UserModel user = new UserModel(userId,firstName,lastName,"", email,"customer","","",
                         null,null
                 );
 //                Database Logic
@@ -54,6 +55,7 @@ public class UserController {
     }
 
     public void login(String email, String password, UserCallback userCallback){
+
         authService.login(email, password, new AuthService.AuthCallback() {
             @Override
             public void onSuccess(FirebaseUser user) {
@@ -62,10 +64,13 @@ public class UserController {
 
             @Override
             public void onFailure(String errorMessage) {
-                Log.d("ERROR_FROM_FB", errorMessage);
                 userCallback.onFailure(errorMessage);
             }
         });
+    }
+
+    public FirebaseUser getCurrentUser(){
+        return auth.getCurrentUser();
     }
 
    public interface UserCallback {

@@ -202,7 +202,7 @@
                     android:id="@+id/email_field"
                     android:background="@null"
                     android:ems="14"
-                    android:hint="Doe"
+                    android:hint="botique@stylica.com"
                     android:paddingHorizontal="14sp"
                     android:paddingVertical="16dp"
                     android:singleLine="true"

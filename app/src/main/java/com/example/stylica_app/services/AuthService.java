@@ -8,8 +8,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
-public class AuthService {
-    FirebaseAuth auth;
+public final class AuthService {
+    private final FirebaseAuth auth;
 
 
     public AuthService(FirebaseAuth auth) {

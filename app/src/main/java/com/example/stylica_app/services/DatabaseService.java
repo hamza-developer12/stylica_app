@@ -1,16 +1,11 @@
 package com.example.stylica_app.services;
-
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseService<T> {
-    FirebaseFirestore firestore;
+public final class DatabaseService<T> {
+    private final FirebaseFirestore firestore;
 
     public  DatabaseService(FirebaseFirestore firestore) {
         this.firestore = firestore;
