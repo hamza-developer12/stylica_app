@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/primary_light_variant_20"
+    tools:context=".views.activities.AdminDashboardActivity">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Back, Hamza"
+            android:lineSpacingExtra="-1sp"
+            style="@style/header_title"
+            android:gravity="center_vertical"
+            />
+        <TextView
+            android:id="@+id/header_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard "
+            android:lineSpacingExtra="-1sp"
+            style="@style/header_subtitle"
+            android:gravity="center_vertical"
+            />
+
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/productsScreenBtn"
+
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/categoriesScreenBtn"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/moderatorsScreenBtn"
+
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/couriersScreenBtn"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -4,7 +4,9 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.ServerTimestamp;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
 
 
     private String userId;

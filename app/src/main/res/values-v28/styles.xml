@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="header_title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="color">@color/text_primary</item>
+    </style>
+</resources>

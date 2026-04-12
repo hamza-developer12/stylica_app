@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_light_variant_20"
+    android:orientation="vertical"
+    tools:context=".views.activities.AddModeratorActivity">
+
+    <include layout="@layout/custom_app_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:text="Add New Moderator" />
+
+        <EditText
+            android:id="@+id/edtFirstName"
+            style="@style/InputFieldStyle"
+            android:layout_marginVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter First Name"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/edtLastName"
+            style="@style/InputFieldStyle"
+            android:layout_marginVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter Last Name"
+            android:padding="15dp" />
+
+
+        <EditText
+            android:id="@+id/edtEmail"
+            style="@style/InputFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_marginVertical="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="textEmailAddress"
+            android:hint="Enter Email"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/edtProductDomain"
+            style="@style/InputFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginVertical="10dp"
+            android:hint="Enter Product Domain"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/edtPassword"
+            style="@style/InputFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Create Password"
+            android:padding="15dp" />
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            style="@style/PrimaryButton"
+            android:visibility="visible"
+            android:text="Add Moderator"
+            android:layout_marginTop="30dp"
+            />
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/primary_light_variant"/>
+
+    </LinearLayout>
+</LinearLayout>

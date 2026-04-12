@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.material3.adaptive.navigation.suite)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
+    implementation(libs.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -66,4 +67,5 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
     implementation(libs.play.services.safetynet)
     implementation(libs.firebase.appcheck.playintegrity)
+    implementation(libs.volley)
 }

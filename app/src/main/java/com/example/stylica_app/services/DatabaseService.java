@@ -20,6 +20,14 @@ public final class DatabaseService<T> {
         });
     }
 
+    public void updateRecord(String collection, String docId, T record, DatabaseCallback<String> callback){
+        firestore.collection(collection).document(docId).set(record).addOnSuccessListener(result->{
+            callback.onSuccess("Record Updated Successfully");
+        }).addOnFailureListener(e->{
+            callback.onFailure(e.getMessage());
+        });;
+    }
+
     public void findAll(String collection, Class<T> modelClass, DatabaseCallback<List<T>> callback) {
       firestore.collection(collection).get().addOnSuccessListener(querySnapshot->{
           List<T> records = new ArrayList<>();
@@ -76,8 +84,37 @@ public final class DatabaseService<T> {
             callback.onFailure(e.getMessage());
         });
     }
+    public void listenAll(String collection, Class<T> modelClass, RealtimeCallback<List<T>> callback) {
+
+        firestore.collection(collection)
+                .addSnapshotListener((querySnapshot, error) -> {
+
+                    if (error != null) {
+                        callback.onFailure(error.getMessage());
+                        return;
+                    }
+
+                    if (querySnapshot != null) {
+
+                        List<T> records = new ArrayList<>();
+
+                        for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                            T record = doc.toObject(modelClass);
+                            if (record != null) {
+                                records.add(record);
+                            }
+                        }
+
+                        callback.onDataChange(records);
+                    }
+                });
+    }
     public interface DatabaseCallback<T> {
         void onSuccess(T data);
+        void onFailure(String errorMessage);
+    }
+    public interface RealtimeCallback<T> {
+        void onDataChange(T data);
         void onFailure(String errorMessage);
     }
 }

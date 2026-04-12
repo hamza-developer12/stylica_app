@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_light_variant_20"
+    tools:context=".views.activities.AddCategoryActivity">
+
+    <!-- 🔹 Custom App Bar -->
+    <include layout="@layout/custom_app_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:text="Add New Category" />
+
+        <EditText
+            android:id="@+id/edtCategory"
+            style="@style/InputFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter Category Name"
+
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/edtSubCategories"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            style="@style/InputFieldStyle"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:hint="Enter subcategories (seperated by comma)"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+
+            android:lines="5"
+            android:maxLines="6"
+            android:scrollbars="vertical"/>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/PrimaryButton"
+            android:visibility="visible"
+            android:text="Add Category"
+            android:layout_marginTop="30dp"
+            android:onClick="addCategory"
+            />
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/primary_light_variant"/>
+    </LinearLayout>
+</LinearLayout>
