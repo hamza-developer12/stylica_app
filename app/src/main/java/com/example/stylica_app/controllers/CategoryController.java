@@ -20,7 +20,7 @@ public  class CategoryController {
 
     DatabaseService<CategoryModel> dbService;
 
-    ArrayList<CategoryModel> categories = new ArrayList<CategoryModel>();
+//    ArrayList<CategoryModel> categories = new ArrayList<CategoryModel>();
 
     private CategoryController() {
         dbService = new DatabaseService<>(FirebaseFirestore.getInstance());
@@ -33,19 +33,22 @@ public  class CategoryController {
     }
 
 
-    public void addCategory(String categoryName, ArrayList<String> categories, DatabaseService.DatabaseCallback<String> callback) {
+    public void addCategory(String categoryName, ArrayList<String> subcategories, DatabaseService.DatabaseCallback<String> callback) {
         String id = FirebaseFirestore.getInstance().collection(COLLECTION).document().getId();
-        CategoryModel category = new CategoryModel(id, categoryName, categories, null, null);
+        CategoryModel category = new CategoryModel(id, categoryName, subcategories, null, null);
 //        dbService.addRecord(COLLECTION, id,category, callback<String>);
         dbService.addRecord(COLLECTION, id, category, callback);
     }
 
-    public void getCategories(DatabaseService.RealtimeCallback<List<CategoryModel>> callback) {
+    public void listenCategories(DatabaseService.RealtimeCallback<List<CategoryModel>> callback) {
         dbService.listenAll(COLLECTION, CategoryModel.class, callback);
     }
 
-    public void updateCategory(String categoryId, String categoryName, ArrayList<String> categories, DatabaseService.DatabaseCallback<String> callback) {
-        CategoryModel category = new CategoryModel(categoryId, categoryName, categories, null, null);
+    public void getAllCategories(DatabaseService.DatabaseCallback<List<CategoryModel>> callback) {
+       dbService.findAll(COLLECTION, CategoryModel.class, callback);
+    }
+    public void updateCategory(String categoryId, String categoryName, ArrayList<String> subCategories, DatabaseService.DatabaseCallback<String> callback) {
+        CategoryModel category = new CategoryModel(categoryId, categoryName, subCategories, null, null);
         dbService.updateRecord(COLLECTION, categoryId, category, callback);
     }
 

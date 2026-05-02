@@ -2,7 +2,9 @@ package com.example.stylica_app.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -13,61 +15,67 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stylica_app.R;
-import com.example.stylica_app.controllers.ModeratorController;
-import com.example.stylica_app.models.UserModel;
+import com.example.stylica_app.controllers.CourierController;
+import com.example.stylica_app.models.CourierModel;
 import com.example.stylica_app.services.DatabaseService;
-import com.example.stylica_app.views.adapters.ModeratorAdapter;
+import com.example.stylica_app.views.adapters.CourierAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModeratorsListActivity extends BaseActivity {
+public class CouriersListActivity extends BaseActivity {
 
-    FloatingActionButton fabAddModerator;
+    FloatingActionButton fabAddCourier;
 
-    ModeratorController moderatorController;
-    ProgressBar loader;
+    CourierController courierController;
+
+    CourierAdapter adapter;
+
+    List<CourierModel> couriers;
 
     ListView itemsList;
-    List<UserModel> moderators = new ArrayList<>();
-    ModeratorAdapter adapter;
+    ProgressBar loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_moderators_list);
+        setContentView(R.layout.activity_couriers_list);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        setupAppBar("Moderators");
+        setupAppBar("Couriers");
 
-        moderatorController = moderatorController.getInstance(this);
-        fabAddModerator = findViewById(R.id.fabAddModerator);
+        couriers = new ArrayList<>();
+        fabAddCourier = findViewById(R.id.fabAddCourier);
+        courierController = CourierController.getInstance();
         loader = findViewById(R.id.loader);
         itemsList = findViewById(R.id.itemsList);
-        fetchModerators();
-        fabAddModerator.setOnClickListener(v->{
-            Intent i = new Intent(ModeratorsListActivity.this, AddModeratorActivity.class);
+
+        fetchCouriers();
+//        Add Courier Screen Route...
+        fabAddCourier.setOnClickListener(v->{
+            Intent i = new Intent(CouriersListActivity.this, AddCourierActivity.class);
             startActivity(i);
         });
     }
 
-
-    public void fetchModerators() {
+    public void fetchCouriers(){
         isLoading(true);
-        moderatorController.getModerators(new DatabaseService.RealtimeCallback<List<UserModel>>() {
+        courierController.listenForCouriers(new DatabaseService.RealtimeCallback<List<CourierModel>>() {
             @Override
-            public void onDataChange(List<UserModel> data) {
+            public void onDataChange(List<CourierModel> data) {
+
                 isLoading(false);
-                moderators.clear();
-                moderators.addAll(data);
-                if(!moderators.isEmpty()) {
-                    adapter = new ModeratorAdapter(ModeratorsListActivity.this, R.layout.custom_list_layout, (ArrayList<UserModel>) moderators);
+                couriers.clear();
+                couriers.addAll(data);
+                Log.d("Couriers Data", couriers.toString());
+                if(!couriers.isEmpty()) {
+                    adapter = new CourierAdapter(CouriersListActivity.this, R.layout.custom_list_layout,(ArrayList<CourierModel>) couriers);
                     itemsList.setAdapter(adapter);
                 }
             }

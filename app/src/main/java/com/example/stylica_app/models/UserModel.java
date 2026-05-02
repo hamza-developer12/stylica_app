@@ -20,6 +20,10 @@ public class UserModel implements Serializable {
     private String contactNumber;
     private String address;
 
+    private String domain;
+    private boolean verified;
+
+    private String deviceToken;
 
 
 
@@ -31,7 +35,7 @@ public class UserModel implements Serializable {
 
 
     public UserModel(){}
-    public UserModel(String userId, String firstName, String lastName, String gender, String email, String role, String contactNumber, String address, Timestamp createdAt, Timestamp updatedAt) {
+    public UserModel(String userId, String firstName, String lastName, String gender, String email, String role, String contactNumber, String address, String domain, boolean verified) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,11 +44,26 @@ public class UserModel implements Serializable {
         this.role = role;
         this.contactNumber = contactNumber;
         this.address = address;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.domain = domain;
+        this.verified = verified;
+        this.deviceToken = "";
     }
 
+    public String getDomain() {
+        return domain;
+    }
 
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -139,5 +158,30 @@ public class UserModel implements Serializable {
         this.email = email;
     }
 
+    public String getDeviceToken() {
+        return deviceToken;
+    }
 
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", domain='" + domain + '\'' +
+                ", verified=" + verified +
+                ", deviceToken='" + deviceToken + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

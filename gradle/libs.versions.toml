@@ -1,5 +1,5 @@
 [versions]
-agp = "9.1.0"
+agp = "9.2.0"
 firebaseAppcheckPlayintegrity = "19.0.2"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -20,6 +20,7 @@ recyclerview = "1.4.0"
 cardview = "1.0.0"
 fragment = "1.8.9"
 volley = "1.2.1"
+activityKtx = "1.8.0"
 
 [libraries]
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebaseAppcheckPlayintegrity" }
@@ -48,6 +49,7 @@ recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version
 cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
+activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

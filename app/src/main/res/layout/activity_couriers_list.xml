@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light_variant_20"
-    tools:context=".views.activities.ModeratorsListActivity">
+    tools:context=".views.activities.CouriersListActivity">
 
     <include layout="@layout/custom_app_bar"
         android:id="@+id/appBar"
@@ -36,7 +36,7 @@
 
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddModerator"
+        android:id="@+id/fabAddCourier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/add_icon"

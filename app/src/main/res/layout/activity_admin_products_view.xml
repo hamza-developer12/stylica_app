@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_light_variant_20"
-    tools:context=".views.activities.ModeratorsListActivity">
+    tools:context=".views.activities.AdminProductsViewActivity">
 
     <include layout="@layout/custom_app_bar"
         android:id="@+id/appBar"
@@ -15,28 +15,27 @@
         android:layout_alignParentTop="true"
         />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_below="@+id/appBar"
-        >
-        <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/loader"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
-        <ListView
-            android:visibility="visible"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/itemsList"/>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_below="@+id/appBar"-->
+<!--        >-->
+<!--        <ProgressBar-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:id="@+id/loader"-->
+<!--            android:visibility="gone"/>-->
+<!--        <ListView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:id="@+id/categoryList"/>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddModerator"
+        android:id="@+id/fabAddProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/add_icon"
@@ -45,4 +44,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="25dp"/>
+
+
 </RelativeLayout>

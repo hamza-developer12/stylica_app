@@ -16,24 +16,50 @@
         android:layout_margin="16dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Back, Hamza"
-            android:lineSpacingExtra="-1sp"
-            style="@style/header_title"
-            android:gravity="center_vertical"
-            />
-        <TextView
-            android:id="@+id/header_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Admin Dashboard "
-            android:lineSpacingExtra="-1sp"
-            style="@style/header_subtitle"
-            android:gravity="center_vertical"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Child Layout (Text block) -->
+            <LinearLayout
+                android:id="@+id/text_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome Back, Hamza"
+                    style="@style/header_title"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/header_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admin Dashboard"
+                    style="@style/header_subtitle"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <!-- ImageButton aligned to right -->
+            <ImageButton
+                android:id="@+id/logoutBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logout_icon"
+
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@android:color/transparent"
+
+                android:contentDescription="Add"/>
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_marginTop="40dp"
@@ -56,23 +82,25 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            >
+            android:layout_marginTop="40dp"
+            android:gravity="center">
 
-            <include layout="@layout/custom_dashboard_card_layout"
+            <include
                 android:id="@+id/moderatorsScreenBtn"
+                layout="@layout/custom_dashboard_card_layout"
 
                 />
+
             <Space
                 android:layout_width="20dp"
-                android:layout_height="match_parent"/>
-            <include layout="@layout/custom_dashboard_card_layout"
+                android:layout_height="match_parent" />
+
+            <include
                 android:id="@+id/couriersScreenBtn"
-                />
+                layout="@layout/custom_dashboard_card_layout" />
         </LinearLayout>
 
     </LinearLayout>

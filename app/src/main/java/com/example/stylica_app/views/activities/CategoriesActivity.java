@@ -30,7 +30,6 @@ public class CategoriesActivity extends BaseActivity {
 
     ProgressBar loader;
     ListView listView;
-    final String COLLECTION = "categories";
     FloatingActionButton floatingActionButton;
     String error = "";
 
@@ -67,7 +66,7 @@ public class CategoriesActivity extends BaseActivity {
 
     public void getCategories(){
         isLoading(true);
-        categoryController.getCategories(new DatabaseService.RealtimeCallback<List<CategoryModel>>(){
+        categoryController.listenCategories(new DatabaseService.RealtimeCallback<List<CategoryModel>>(){
             @Override
             public void onDataChange(List<CategoryModel> data) {
                 isLoading(false);

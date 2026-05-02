@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
@@ -38,6 +39,26 @@ public class ApiService {
         getRequestQueue().add(req);
     }
 
+    // 🔥 Common Error Parser
+    private JSONObject parseError(VolleyError error) {
+        JSONObject errorObj = new JSONObject();
+
+        try {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                String errorString = new String(error.networkResponse.data);
+                return new JSONObject(errorString); // backend JSON
+            } else {
+                errorObj.put("msg", error.getMessage());
+            }
+        } catch (Exception e) {
+            try {
+                errorObj.put("msg", "Unknown error");
+            } catch (Exception ignored) {}
+        }
+
+        return errorObj;
+    }
+
     // 🔥 GET Request
     public void get(String url, ApiCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(
@@ -45,7 +66,7 @@ public class ApiService {
                 url,
                 null,
                 response -> callback.onSuccess(response),
-                error -> callback.onError(error.toString())
+                error -> callback.onError(parseError(error))
         );
 
         addToRequestQueue(request);
@@ -58,7 +79,7 @@ public class ApiService {
                 url,
                 body,
                 response -> callback.onSuccess(response),
-                error -> callback.onError(error.toString())
+                error -> callback.onError(parseError(error))
         );
 
         addToRequestQueue(request);
@@ -71,7 +92,7 @@ public class ApiService {
                 url,
                 body,
                 response -> callback.onSuccess(response),
-                error -> callback.onError(error.toString())
+                error -> callback.onError(parseError(error))
         );
 
         addToRequestQueue(request);
@@ -84,7 +105,7 @@ public class ApiService {
                 url,
                 null,
                 response -> callback.onSuccess(response),
-                error -> callback.onError(error.toString())
+                error -> callback.onError(parseError(error))
         );
 
         addToRequestQueue(request);
@@ -93,6 +114,6 @@ public class ApiService {
     // 🔥 Callback Interface
     public interface ApiCallback {
         void onSuccess(JSONObject response);
-        void onError(String error);
+        void onError(JSONObject error);
     }
 }

@@ -1,8 +1,10 @@
 package com.example.stylica_app.services;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class DatabaseService<T> {
     private final FirebaseFirestore firestore;
@@ -84,6 +86,43 @@ public final class DatabaseService<T> {
             callback.onFailure(e.getMessage());
         });
     }
+    public void listenWhere(String collection, String key, String value,Class<T> modelClass, RealtimeCallback<List<T>> callback) {
+
+        firestore.collection(collection).whereEqualTo(key,value).addSnapshotListener((querySnapshot, error)->{
+            if(error != null) {
+                callback.onFailure(error.getMessage());
+                return;
+            }
+            if(querySnapshot != null) {
+                List<T> records = new ArrayList<>();
+                for(DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                    T record = doc.toObject(modelClass);
+                    if(record != null) {
+                        records.add(record);
+                    }
+                }
+
+                callback.onDataChange(records);
+            }
+        });
+
+    }
+    public void recordExists(String collection, String key, String value, OnCheckListener listener) {
+
+        firestore.collection(collection)
+                .whereEqualTo(key, value)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        listener.onResult(true);
+                    } else {
+                        listener.onResult(false);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    listener.onResult(false);
+                });
+    }
     public void listenAll(String collection, Class<T> modelClass, RealtimeCallback<List<T>> callback) {
 
         firestore.collection(collection)
@@ -116,5 +155,10 @@ public final class DatabaseService<T> {
     public interface RealtimeCallback<T> {
         void onDataChange(T data);
         void onFailure(String errorMessage);
+    }
+
+
+    public interface OnCheckListener {
+        void onResult(boolean exists);
     }
 }

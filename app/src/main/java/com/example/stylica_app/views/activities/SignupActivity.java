@@ -106,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
         }
         toggleLoading(true);
 
-        userController.register(firstName, lastName, email, password, new UserController.UserCallback() {
+        userController.register(firstName, lastName, email, password, new UserController.UserCallback<String>() {
 
             @Override
             public void onSuccess(String message) {

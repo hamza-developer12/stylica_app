@@ -25,13 +25,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stylica_app.R;
 import com.example.stylica_app.controllers.UserController;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.appcheck.FirebaseAppCheck;
-import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
+import com.example.stylica_app.models.UserModel;
+import com.example.stylica_app.services.SessionService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     int eyeFlag = 0;
     ImageView eyeIcon;
     EditText emailField;
@@ -46,18 +45,20 @@ public class MainActivity extends AppCompatActivity {
     CardView loginCardView;
     LinearLayout webContainer;
     boolean waitingForCaptcha = false;
+    SessionService sessionService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        sessionService = new SessionService(LoginActivity.this);
 //        Initialize....
         userController = new UserController(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance());
 
@@ -104,37 +105,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-//    public void login(View v){
-//
-//        String email = emailField.getText().toString().trim();
-//        String password = passwordField.getText().toString().trim();
-//
-//        if(email.isEmpty() || password.isEmpty()) {
-//            Toast.makeText(this, "Please provide all Fields", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        webView.setVisibility(View.VISIBLE);
-//        webView.getSettings().setJavaScriptEnabled(true);
-
-//        toggleLoading(true);
-//        webView.loadUrl("https://dulcet-sprite-b1b821.netlify.app/");
-//
-//        userController.login(email, password, new UserController.UserCallback() {
-//            @Override
-//            public void onSuccess(String message) {
-//                toggleLoading(false);
-//                Toast.makeText(MainActivity.this,message, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(String errorMessage) {
-//                toggleLoading(false);
-//                Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 public void login(View v) {
     String email = emailField.getText().toString().trim();
     String password = passwordField.getText().toString().trim();
@@ -190,19 +160,51 @@ public void login(View v) {
         toggleLoading(true);
 
         // Pass the token to your UserController
-        userController.login(email, password, new UserController.UserCallback() {
+        userController.login(email, password, new UserController.UserCallback<UserModel>() {
             @Override
-            public void onSuccess(String message) {
+            public void onSuccess(UserModel data) {
                 toggleLoading(false);
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                Log.d("USER_DATA", data.toString());
+                Intent i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                startActivity(i);
+                finish();
+                sessionService.saveUser(data.getUserId(),data.getRole(),data.getEmail(),true,data.isVerified(),data.getDomain());
+//
+              moveToScreen(data.getRole(), data.isVerified());
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 toggleLoading(false);
-                Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void moveToScreen(String role, boolean isVerified) {
+        Intent i = null;
+        if(isVerified) {
+            switch (role) {
+                case "admin":
+                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    break;
+                case "moderator":
+                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    break;
+                case "vendor":
+                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    break;
+                case "customer":
+                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    break;
+            }
+        }else {
+        }
+        startActivity(i);
+//        finish();
     }
 
     public void closeWebView(View view) {
