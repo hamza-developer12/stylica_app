@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Stylica</string>
     <string name="title_activity_main2">MainActivity2</string>
+
+    <string name="cloud_name">deatjtqsi</string>
+    <string name="cloud_api_key">867878933483799</string>
+    <string name="cloud_api_secret">5zKokq5PfFKkMZSxSStFWWgENIs</string>
+
+
 </resources>
+

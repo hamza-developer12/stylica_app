@@ -69,4 +69,6 @@ dependencies {
     implementation(libs.play.services.safetynet)
     implementation(libs.firebase.appcheck.playintegrity)
     implementation(libs.volley)
+    implementation(libs.cloudinary.android)
+    implementation("com.github.bumptech.glide:glide:4.14.2")
 }

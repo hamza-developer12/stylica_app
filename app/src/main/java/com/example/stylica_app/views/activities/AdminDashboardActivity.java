@@ -67,7 +67,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
 
         prodCard.setOnClickListener(v->{
-            Intent i = new Intent(AdminDashboardActivity.this, AdminProductsViewActivity.class);
+            Intent i = new Intent(AdminDashboardActivity.this, ProductsViewActivity.class);
             startActivity(i);
         });
 

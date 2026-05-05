@@ -63,9 +63,18 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         isLoading(true);
 
-        String tempSub = subCategories.getText().toString();
+        String tempSub = subCategories.getText().toString().trim();
         String[] subctgsArray = tempSub.split(",");
-        ArrayList<String> subctgs = new ArrayList<String>(Arrays.asList(subctgsArray));
+
+        ArrayList<String> subctgs = new ArrayList<>();
+        for (String sub : subctgsArray) {
+            sub = sub.trim();
+            if (!sub.isEmpty()) {
+                subctgs.add(sub);
+            }
+        }
+
+
         categoryController.addCategory(tmpCategory, subctgs, new DatabaseService.DatabaseCallback<String>() {
             @Override
             public void onSuccess(String data) {

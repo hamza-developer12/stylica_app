@@ -14,9 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stylica_app">
         <activity
-            android:exported="true"
+            android:name=".views.activities.CustomerDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.EditProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.SingleProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.ModeratorDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.ModeratorSignupActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.activities.SplashActivity"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +41,7 @@
             android:name=".views.activities.AddProductActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.AdminProductsViewActivity"
+            android:name=".views.activities.ProductsViewActivity"
             android:exported="false" />
         <activity
             android:name=".views.activities.EditCourierActivity"

@@ -10,7 +10,9 @@ import com.example.stylica_app.views.activities.AddCategoryActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public  class CategoryController {
 
@@ -49,7 +51,10 @@ public  class CategoryController {
     }
     public void updateCategory(String categoryId, String categoryName, ArrayList<String> subCategories, DatabaseService.DatabaseCallback<String> callback) {
         CategoryModel category = new CategoryModel(categoryId, categoryName, subCategories, null, null);
-        dbService.updateRecord(COLLECTION, categoryId, category, callback);
+        Map data = new HashMap();
+        data.put("categoryName",categoryName);
+        data.put("subCategories", subCategories);
+        dbService.updateRecord(COLLECTION, categoryId, data, callback);
     }
 
     public void deleteCategory(String categoryId, DatabaseService.DatabaseCallback<String> callback){

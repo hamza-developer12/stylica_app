@@ -107,11 +107,6 @@ public class AddModeratorActivity extends BaseActivity {
         loader.setVisibility(View.VISIBLE);
         btnSubmit.setVisibility(View.GONE);
 
-        Log.d("firstname", firstName);
-        Log.d("lastname", lastName);
-        Log.d("email", email);
-        Log.d("domain", domain);
-        Log.d("password", password);
 
         moderatorController.addModerator(firstName, lastName, email, password, domain, new ModeratorController.ModeratorCallback()  {
             @Override
@@ -157,7 +152,7 @@ public class AddModeratorActivity extends BaseActivity {
                 categoryNames.add("Select Domain");
 
                 for(CategoryModel cat : data) {
-                    categories.add(cat);
+
                     categoryNames.add(cat.getCategoryName());
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddModeratorActivity.this,

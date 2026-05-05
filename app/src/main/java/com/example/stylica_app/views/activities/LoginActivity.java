@@ -171,7 +171,10 @@ public void login(View v) {
                 Intent i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                 startActivity(i);
                 finish();
-                sessionService.saveUser(data.getUserId(),data.getRole(),data.getEmail(),true,data.isVerified(),data.getDomain());
+                String name = data.getFirstName()+ " " + data.getLastName();
+                sessionService.saveUser(data.getUserId(),
+                        name,
+                        data.getRole(),data.getEmail(),true,data.isVerified(),data.getDomain());
 //
               moveToScreen(data.getRole(), data.isVerified());
             }

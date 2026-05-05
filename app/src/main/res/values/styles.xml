@@ -31,6 +31,12 @@
 
     </style>
 
+    <style name="product_card">
+        <item name="android:radius">20dp</item>
+
+        <item name="android:background">@color/primary_light_variant_20</item>
+    </style>
+
     <style name="Widget.Theme.Stylica_app.MyView" parent="">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>

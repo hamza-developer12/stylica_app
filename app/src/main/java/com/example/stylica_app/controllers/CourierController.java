@@ -6,7 +6,9 @@ import com.example.stylica_app.services.DatabaseService;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourierController {
 
@@ -54,8 +56,12 @@ public class CourierController {
     }
 
     public void updateCourier(String courierId, String courierName, String phoneNumber, String email, DatabaseService.DatabaseCallback<String> callback) {
-        CourierModel category = new CourierModel(courierId, courierName, phoneNumber, email,null,null);
-        dbService.updateRecord(COLLECTION, courierId, category, callback);
+
+        Map data = new HashMap();
+        data.put("courierName",courierName);
+        data.put("email", email);
+        data.put("phoneNumber", phoneNumber);
+        dbService.updateRecord(COLLECTION, courierId, data, callback);
     }
 
     public void deleteCourier(String courierId, DatabaseService.DatabaseCallback<String> callback){

@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class DatabaseService<T> {
@@ -22,12 +23,17 @@ public final class DatabaseService<T> {
         });
     }
 
-    public void updateRecord(String collection, String docId, T record, DatabaseCallback<String> callback){
-        firestore.collection(collection).document(docId).set(record).addOnSuccessListener(result->{
-            callback.onSuccess("Record Updated Successfully");
-        }).addOnFailureListener(e->{
-            callback.onFailure(e.getMessage());
-        });;
+    public void updateRecord(String collection, String docId, Map<String, Object> fields, DatabaseCallback<String> callback) {
+        firestore.collection(collection)
+                .document(docId)
+                .update(fields)
+
+                .addOnSuccessListener(result -> {
+                    callback.onSuccess("Record Updated Successfully");
+                })
+                .addOnFailureListener(e -> {
+                    callback.onFailure(e.getMessage());
+                });
     }
 
     public void findAll(String collection, Class<T> modelClass, DatabaseCallback<List<T>> callback) {
