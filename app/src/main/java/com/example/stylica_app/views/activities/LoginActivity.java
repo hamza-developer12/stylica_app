@@ -195,13 +195,11 @@ public void login(View v) {
                     i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                     break;
                 case "moderator":
-                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    i = new Intent(LoginActivity.this, ModeratorDashboardActivity.class);
                     break;
-                case "vendor":
-                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
-                    break;
+
                 case "customer":
-                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    i = new Intent(LoginActivity.this, CustomerDashboardActivity.class);
                     break;
             }
         }else {

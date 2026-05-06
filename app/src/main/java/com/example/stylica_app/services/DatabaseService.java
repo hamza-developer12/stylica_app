@@ -1,6 +1,7 @@
 package com.example.stylica_app.services;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,16 +93,22 @@ public final class DatabaseService<T> {
             callback.onFailure(e.getMessage());
         });
     }
-    public void listenWhere(String collection, String key, String value,Class<T> modelClass, RealtimeCallback<List<T>> callback) {
+    public void listenWhere(String collection, Map<String,Object> conditions,Class<T> modelClass, RealtimeCallback<List<T>> callback) {
 
-        firestore.collection(collection).whereEqualTo(key,value).addSnapshotListener((querySnapshot, error)->{
+        Query query = firestore.collection(collection);
+
+        for(Map.Entry<String,Object> entry : conditions.entrySet()) {
+            query = query.whereEqualTo(entry.getKey(), entry.getValue());
+        }
+
+        query.addSnapshotListener((querySnapShot, error) -> {
             if(error != null) {
                 callback.onFailure(error.getMessage());
                 return;
             }
-            if(querySnapshot != null) {
+            if(querySnapShot != null) {
                 List<T> records = new ArrayList<>();
-                for(DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                for(DocumentSnapshot doc : querySnapShot.getDocuments()) {
                     T record = doc.toObject(modelClass);
                     if(record != null) {
                         records.add(record);
@@ -111,6 +118,7 @@ public final class DatabaseService<T> {
                 callback.onDataChange(records);
             }
         });
+
 
     }
     public void recordExists(String collection, String key, String value, OnCheckListener listener) {

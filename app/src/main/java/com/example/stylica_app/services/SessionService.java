@@ -50,6 +50,10 @@ public class SessionService {
     }
 
     public String getUserName(){return prefs.getString(KEY_USER_NAME, "");}
+
+    public String getDomain() {
+        return prefs.getString(KEY_DOMAIN,"");
+    }
     public void clearUser() {
         editor.clear();
         editor.apply();

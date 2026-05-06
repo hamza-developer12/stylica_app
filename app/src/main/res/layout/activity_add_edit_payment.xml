@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_light">
+
+    <include layout="@layout/custom_app_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingBottom="30dp">
+
+            <!-- Type Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Type"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Type Selector Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <!-- Card -->
+                <TextView
+                    android:id="@+id/chipCard"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="💳 Card"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_white"
+                    android:background="@drawable/chip_selected_bg"/>
+
+                <!-- JazzCash -->
+                <TextView
+                    android:id="@+id/chipJazzcash"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="📱 JazzCash"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:background="@drawable/chip_unselected_bg"/>
+
+                <!-- EasyPaisa -->
+                <TextView
+                    android:id="@+id/chipEasypaisa"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="💚 EasyPaisa"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:background="@drawable/chip_unselected_bg"/>
+
+            </LinearLayout>
+
+            <!-- Account Title -->
+            <EditText
+                android:id="@+id/edtAccountTitle"
+                style="@style/InputFieldStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Account Title (e.g. Stylica Official)"
+                android:inputType="textPersonName"
+                android:padding="15dp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Account Number -->
+            <EditText
+                android:id="@+id/edtAccountNumber"
+                style="@style/InputFieldStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Account Number / Phone Number"
+                android:inputType="phone"
+                android:padding="15dp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Instructions -->
+            <EditText
+                android:id="@+id/edtInstructions"
+                style="@style/InputFieldStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Instructions for customer (e.g. Send payment and share screenshot)"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:gravity="top|start"
+                android:padding="15dp"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Save"/>
+
+            <!-- Loader -->
+            <ProgressBar
+                android:id="@+id/loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:indeterminateTint="@color/primary_light_variant"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

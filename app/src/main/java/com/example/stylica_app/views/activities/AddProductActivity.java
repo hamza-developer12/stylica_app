@@ -153,6 +153,12 @@ public class AddProductActivity extends BaseActivity {
         String selectedSubCategory = spinnerProductSubCategory.getSelectedItem().toString();
 
 
+        String role = sessionService.getUserRole();
+        String domain = sessionService.getDomain();
+        if(role.equals("moderator")&& !(selectedCategory.equals(domain))) {
+            Toast.makeText(this, "Please select domain specific category", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if(selectedImage == null) {
             Toast.makeText(this, "Please provide product iamge", Toast.LENGTH_SHORT).show();
@@ -177,6 +183,12 @@ public class AddProductActivity extends BaseActivity {
         String userName = sessionService.getUserName();
         String userId = sessionService.getUserId();
 
+        String status;
+        if(role.equals("admin")) {
+            status = "approved";
+        }else {
+            status = "pending";
+        }
         processing(true);
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -196,7 +208,7 @@ public class AddProductActivity extends BaseActivity {
                             selectedCategory,
                             selectedSubCategory,
                             productDescription,
-                            "approved",
+                            status,
                             userId,
                             userName,
                             isNewArrival,

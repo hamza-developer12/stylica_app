@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.stylica_app.helpers.CloudinaryHelper;
 import com.example.stylica_app.models.ProductModel;
 import com.example.stylica_app.services.DatabaseService;
+import com.example.stylica_app.services.SessionService;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public class ProductController {
     DatabaseService<ProductModel> dbService;
     CategoryController categoryController;
     CloudinaryHelper cloudinaryHelper;
+
+    SessionService sessionService;
 
     // 🔹 Delete Callback Interface
     public interface DeleteCallback {
@@ -37,6 +40,7 @@ public class ProductController {
         dbService = new DatabaseService<>(firestore);
         categoryController = CategoryController.getInstance();
         cloudinaryHelper = new CloudinaryHelper(context);
+        sessionService = new SessionService(context);
     }
 
     public static ProductController getInstance(Context context) {
@@ -64,7 +68,16 @@ public class ProductController {
 
 
     public void getAllProducts(DatabaseService.RealtimeCallback callback) {
-        dbService.listenWhere(COLLECTION, "status", "approved", ProductModel.class, callback);
+        Map conditions = new HashMap();
+        String role = sessionService.getUserRole();
+        String userId = sessionService.getUserId();
+
+        conditions.put("status", "approved");
+
+        if(role.equals("moderator")) {
+            conditions.put("userId",userId);
+        }
+        dbService.listenWhere(COLLECTION, conditions, ProductModel.class, callback);
     }
 
 
@@ -130,16 +143,27 @@ public class ProductController {
         }
 
         dbService.updateRecord(COLLECTION,productId,updates, callback);
-//        firestore.collection(COLLECTION)
-//                .document(productId)
-//                .update(updates)
-//                .addOnSuccessListener(aVoid -> {
-//                    Log.d("ProductController", "Product updated: " + productId);
-//                    callback.onSuccess();
-//                })
-//                .addOnFailureListener(e -> {
-//                    Log.e("ProductController", "Update failed: " + e.getMessage());
-//                    callback.onFailure(e.getMessage());
-//                });
+
+    }
+
+    // Get pending products
+    public void getPendingProducts(DatabaseService.RealtimeCallback callback) {
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("status", "pending");
+        dbService.listenWhere(COLLECTION, conditions, ProductModel.class, callback);
+    }
+
+    // Approve product
+    public void approveProduct(String productId, DatabaseService.DatabaseCallback callback) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("status", "approved");
+        dbService.updateRecord(COLLECTION, productId, update, callback);
+    }
+
+    // Reject product
+    public void rejectProduct(String productId, DatabaseService.DatabaseCallback callback) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("status", "rejected");
+        dbService.updateRecord(COLLECTION, productId, update, callback);
     }
 }

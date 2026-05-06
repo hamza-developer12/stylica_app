@@ -33,7 +33,7 @@
                     android:id="@+id/header_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcome Back, Hamza"
+                    android:text="Welcome Back,"
                     style="@style/header_title"
                     android:gravity="center_vertical"/>
 
@@ -101,6 +101,26 @@
             <include
                 android:id="@+id/couriersScreenBtn"
                 layout="@layout/custom_dashboard_card_layout" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/pendingProductsScreenBtn"
+
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/paymentMethodsScreenBtn"
+                />
         </LinearLayout>
 
     </LinearLayout>

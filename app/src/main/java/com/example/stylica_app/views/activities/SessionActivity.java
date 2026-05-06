@@ -20,13 +20,13 @@ public class SessionActivity extends AppCompatActivity {
                     i = new Intent(context, AdminDashboardActivity.class);
                     break;
                 case "moderator":
-
+                    i = new Intent(context, ModeratorDashboardActivity.class);
                     break;
-                case "vendor":
 
-                    break;
+
+
                 case "customer":
-
+                    i = new Intent(context, CustomerDashboardActivity.class);
                     break;
                 default:
 

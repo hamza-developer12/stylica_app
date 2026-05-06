@@ -1,10 +1,16 @@
 package com.example.stylica_app.controllers;
 
 import android.content.Context;
+import android.content.Intent;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stylica_app.models.UserModel;
 import com.example.stylica_app.services.ApiService;
 import com.example.stylica_app.services.DatabaseService;
+import com.example.stylica_app.services.SessionService;
+import com.example.stylica_app.views.activities.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
@@ -12,7 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModeratorController {
     String baseUrl = "https://stylica-backend.vercel.app/api";
@@ -22,17 +30,22 @@ public class ModeratorController {
     final String COLLECTION = "users";
 
     DatabaseService<UserModel> dbService;
+    SessionService sessionService;
     boolean hasError = false;
     String errorMessage = "";
     ApiService apiService;
 
     CategoryController categoryController = CategoryController.getInstance();
-    Context context;
+
 
     List<UserModel> moderators = new ArrayList<>();
+
+    FirebaseAuth auth;
     private ModeratorController(Context context){
         dbService = new DatabaseService<>(FirebaseFirestore.getInstance());
         apiService = ApiService.getInstance(context);
+        sessionService = new SessionService(context);
+        auth = FirebaseAuth.getInstance();
     }
 
     public static ModeratorController getInstance(Context ctx) {
@@ -45,7 +58,9 @@ public class ModeratorController {
 
 
     public void getModerators(DatabaseService.RealtimeCallback<List<UserModel>> callback){
-        dbService.listenWhere(COLLECTION, "role", "moderator", UserModel.class,callback);
+        Map conditions = new HashMap();
+        conditions.put("role", "moderator");
+        dbService.listenWhere(COLLECTION, conditions, UserModel.class,callback);
     }
     public void addModerator(String firstName, String lastName, String email, String password, String domain, ModeratorCallback callback)  {
 
@@ -78,5 +93,16 @@ public class ModeratorController {
         void onFailure(String errorMessage);
         void onApiError(JSONObject error);
     }
+
+
+        public void logout(AppCompatActivity context) {
+            sessionService = new SessionService(context);
+            auth.signOut();
+            sessionService.clearUser();
+            Intent i = new Intent(context, LoginActivity.class);
+            context.startActivity(i);
+            context.finish();
+        }
+
 
 }

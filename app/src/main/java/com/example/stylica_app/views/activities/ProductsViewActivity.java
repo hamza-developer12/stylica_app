@@ -23,6 +23,7 @@ import com.example.stylica_app.R;
 import com.example.stylica_app.controllers.ProductController;
 import com.example.stylica_app.models.ProductModel;
 import com.example.stylica_app.services.DatabaseService;
+import com.example.stylica_app.services.SessionService;
 import com.example.stylica_app.views.adapters.ProductAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -80,10 +81,11 @@ public class ProductsViewActivity extends BaseActivity {
         });
     }
 
-    // ✅ Build chips dynamically from product categories
+
     @SuppressLint("ResourceAsColor")
     private void buildCategoryChips(List<ProductModel> productList) {
-        chipGroup.removeAllViews(); // clear old chips
+        // clear old chips
+        chipGroup.removeAllViews();
 
         // Collect unique categories
         Set<String> categoriesSet = new HashSet<>();
@@ -143,8 +145,9 @@ public class ProductsViewActivity extends BaseActivity {
             public void onDataChange(List<ProductModel> data) {
                 loading(false);
                 if (data == null) return;
+
                 products = data;
-                buildCategoryChips(products); // ✅ build chips from real data
+                buildCategoryChips(products);
                 filterProducts(searchProduct.getText().toString());
             }
 
