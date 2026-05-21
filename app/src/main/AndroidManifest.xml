@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stylica_app">
         <activity
+            android:name=".views.activities.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.activities.ModeratorOrderDetailActivity"
             android:exported="false" />
         <activity

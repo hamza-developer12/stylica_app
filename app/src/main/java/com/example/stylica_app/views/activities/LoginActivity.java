@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
 
     UserController userController;
     CardView loginCardView;
+
+    TextView forgotPasswordTxt;
     SessionService sessionService;
 
     @Override
@@ -88,17 +90,23 @@ public class LoginActivity extends AppCompatActivity {
         sessionService = new SessionService(LoginActivity.this);
         userController = new UserController(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance());
 
-        loginCardView        = findViewById(R.id.login_card);
-        emailField           = findViewById(R.id.email_field);
-        passwordField        = findViewById(R.id.password_field);
+        loginCardView = findViewById(R.id.login_card);
+        emailField = findViewById(R.id.email_field);
+        passwordField = findViewById(R.id.password_field);
         goToSignupScreenText = findViewById(R.id.signup_screen_btn);
-        signInBtn            = findViewById(R.id.login_btn);
-        loader               = findViewById(R.id.loader);
-        captchaTextView      = findViewById(R.id.captcha_text);
-        captchaInput         = findViewById(R.id.captcha_input);
+        signInBtn = findViewById(R.id.login_btn);
+        loader = findViewById(R.id.loader);
+        forgotPasswordTxt = findViewById(R.id.forgotPasswordTxt);
+        captchaTextView = findViewById(R.id.captcha_text);
+        captchaInput = findViewById(R.id.captcha_input);
 
         generateCaptcha();
         moveToSignupScreen();
+
+        forgotPasswordTxt.setOnClickListener(v->{
+            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+        });
+
     }
 
     //Captcha

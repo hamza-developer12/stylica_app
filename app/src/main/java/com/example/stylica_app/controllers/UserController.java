@@ -197,10 +197,19 @@ public class UserController {
         return auth.getCurrentUser();
     }
 
+    public void resetPassword(String email, UserCallback<String> callback) {
+        auth.sendPasswordResetEmail(email).addOnSuccessListener(v->{
+            callback.onSuccess("Password Reset Link Sent on Email");
+        }).addOnFailureListener(error->{
+            callback.onFailure(error.getMessage());
+        });
+    }
+
    public interface UserCallback<T> {
         void onSuccess(T data);
         void onFailure(String errorMessage);
    }
+
 
     public interface UpdateCallback {
         void onSuccess();
