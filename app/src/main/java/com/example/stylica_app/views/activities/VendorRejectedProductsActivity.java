@@ -93,7 +93,7 @@ public class VendorRejectedProductsActivity extends BaseActivity {
                         Toast.makeText(VendorRejectedProductsActivity.this,
                                 "Product resubmitted for review ✓",
                                 Toast.LENGTH_SHORT).show();
-                        loadRejectedProducts(); // refresh list
+                        loadRejectedProducts();
                     }
 
                     @Override

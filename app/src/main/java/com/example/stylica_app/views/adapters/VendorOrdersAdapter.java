@@ -132,7 +132,7 @@ public class VendorOrdersAdapter extends
                 case "shipped":
                     holder.btnDeliver.setVisibility(View.VISIBLE);
                     break;
-                // delivered — no buttons
+                // delivered - no buttons
             }
         }
 

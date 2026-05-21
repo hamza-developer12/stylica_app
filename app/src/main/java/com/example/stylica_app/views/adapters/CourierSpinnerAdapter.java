@@ -25,7 +25,7 @@ public class CourierSpinnerAdapter extends ArrayAdapter<CourierModel> {
         super(context, R.layout.spinner_dropdown_item, couriers);
         this.context  = context;
         this.couriers = couriers;
-        // Use same custom layout for the dropdown list
+
         setDropDownViewResource(R.layout.spinner_dropdown_item);
     }
 
@@ -33,7 +33,6 @@ public class CourierSpinnerAdapter extends ArrayAdapter<CourierModel> {
     @Override
     public View getView(int position, @Nullable View convertView,
                         @NonNull ViewGroup parent) {
-        // This is the collapsed "selected item" view shown on the Spinner itself
         return createView(position, convertView, parent);
     }
 
@@ -41,7 +40,6 @@ public class CourierSpinnerAdapter extends ArrayAdapter<CourierModel> {
     public View getDropDownView(int position,
                                 @Nullable View convertView,
                                 @NonNull ViewGroup parent) {
-        // This is each row in the dropdown list
         return createView(position, convertView, parent);
     }
 

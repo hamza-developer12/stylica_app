@@ -59,14 +59,13 @@ public class LoginActivity extends AppCompatActivity {
 
         View rootView = findViewById(R.id.main);
 
-        // 1. Apply system bar insets as padding (keeps EdgeToEdge working)
         ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // 2. Smoothly push content up when keyboard appears/disappears
+        // Smoothly push content up when keyboard appears/disappears
         ViewCompat.setWindowInsetsAnimationCallback(rootView,
                 new WindowInsetsAnimationCompat.Callback(
                         WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_STOP) {
@@ -102,10 +101,9 @@ public class LoginActivity extends AppCompatActivity {
         moveToSignupScreen();
     }
 
-    // ─── Captcha ─────────────────────────────────────────────────────────────────
+    //Captcha
 
     private void generateCaptcha() {
-        // Excludes visually ambiguous chars: 0/O, 1/I/l
         String chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
         Random random = new Random();
         StringBuilder sb = new StringBuilder(6);
@@ -125,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         return captchaInput.getText().toString().trim().equals(currentCaptcha);
     }
 
-    // ─── Auth ─────────────────────────────────────────────────────────────────────
+    //Auth
 
     public void login(View v) {
         String email    = emailField.getText().toString().trim();
@@ -173,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // ─── Navigation ──────────────────────────────────────────────────────────────
+    //Navigation
 
     public void moveToSignupScreen() {
         goToSignupScreenText.setOnClickListener(view ->
@@ -197,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    // ─── UI Helpers ───────────────────────────────────────────────────────────────
+    // UI Helpers
 
     public void showOrHidePasswd(View v) {
         if (eyeFlag == 0) {

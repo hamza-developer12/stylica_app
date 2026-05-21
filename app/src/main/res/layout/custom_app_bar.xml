@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         >
 
-        <!-- 🔙 Back Button -->
+        <!--  Back Button -->
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="28dp"
@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"/>
 
-        <!-- 🏷️ Title (Center) -->
+        <!--  Title (Center) -->
         <TextView
             android:id="@+id/screenTitle"
             android:layout_width="wrap_content"

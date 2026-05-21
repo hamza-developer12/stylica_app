@@ -95,7 +95,7 @@ public class EditCourierActivity extends BaseActivity {
             charges = 0;
         }
 
-//        TODO:
+
 
         courierController.updateCourier(courierId, tmpCourierName, tmpPhoneNumber, tmpEmail,charges,tmpDeliveryDays ,new DatabaseService.DatabaseCallback<String>() {
             @Override

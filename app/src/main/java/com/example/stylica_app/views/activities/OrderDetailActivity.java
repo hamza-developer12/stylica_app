@@ -101,7 +101,6 @@ public class OrderDetailActivity extends BaseActivity {
                 .addOnFailureListener(e -> {
                     loader.setVisibility(View.GONE);
                     contentLayout.setVisibility(View.VISIBLE);
-                    // Still show content even if parent order fails
                 });
     }
 

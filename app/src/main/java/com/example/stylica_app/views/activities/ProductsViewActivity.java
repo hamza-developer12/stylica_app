@@ -92,11 +92,6 @@ public class ProductsViewActivity extends BaseActivity {
         });
 
 
-//        if(role.equals("admin")) {
-//            fetchCategoriesAndProducts();
-//        }else {
-//            fetchProducts();
-//        }
         fetchCategoriesAndProducts();
 
 

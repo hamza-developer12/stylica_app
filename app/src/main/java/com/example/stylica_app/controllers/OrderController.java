@@ -38,11 +38,6 @@ public class OrderController {
         return instance;
     }
 
-    // ─────────────────────────────────────────────────────────
-    // PLACE ORDER
-    // 1 Order + 1 SubOrder per unique cart item (unique product)
-    // Both saved in one batch
-    // ─────────────────────────────────────────────────────────
     public void placeOrder(OrderModel order, List<CartModel> cartItems,
                            String customerId, String customerName,
                            String deliveryDays,
@@ -58,7 +53,7 @@ public class OrderController {
                 .collection(ORDERS_COLLECTION).document(orderId);
         batch.set(orderRef, order);
 
-        // 1 SubOrder per unique cart item
+        // SubOrder per unique cart item
         for (CartModel item : cartItems) {
             String subOrderId = firestore
                     .collection(SUBORDERS_COLLECTION).document().getId();
@@ -85,7 +80,7 @@ public class OrderController {
             batch.set(subOrderRef, subOrder);
         }
 
-        // Commit Order + all SubOrders atomically
+        // Commit Order + all SubOrders
         batch.commit()
                 .addOnSuccessListener(aVoid -> {
                     reduceStock(cartItems);
@@ -95,16 +90,13 @@ public class OrderController {
     }
 
 
-    // ADMIN — Verify payment
-    // Updates Order paymentStatus + all its SubOrders to "verified"
 
     public void verifyPayment(String orderId, UpdateCallback callback) {
         updatePaymentStatus(orderId, "verified", callback);
     }
 
 
-    // ADMIN — Reject payment
-    // Updates Order paymentStatus + all its SubOrders to "rejected"
+
 
     public void rejectPayment(String orderId, UpdateCallback callback) {
         updatePaymentStatus(orderId, "rejected", callback);
@@ -137,9 +129,9 @@ public class OrderController {
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
 
-    // ─────────────────────────────────────────────────────────
-    // ADMIN — Get all Orders
-    // ─────────────────────────────────────────────────────────
+
+    // ADMIN - Get all Orders
+
     public void getAllOrders(DatabaseService.DatabaseCallback<List<OrderModel>> callback) {
         firestore.collection(ORDERS_COLLECTION)
                 .orderBy("createdAt", Query.Direction.DESCENDING)
@@ -152,7 +144,7 @@ public class OrderController {
     }
 
 
-    // MODERATOR — Get SubOrders for their domain (verified only)
+    // MODERATOR - Get SubOrders for their domain (verified only)
 
     public void getSubOrdersForModerator(String domain,
                                          DatabaseService.RealtimeCallback<List<SubOrderModel>> callback) {
@@ -173,8 +165,7 @@ public class OrderController {
     }
 
 
-    // MODERATOR — Update SubOrder status
-    // confirmed → packed → shipped → delivered
+
     public void updateSubOrderStatus(String subOrderId, String status,
                                      UpdateCallback callback) {
         firestore.collection(SUBORDERS_COLLECTION)
@@ -184,9 +175,7 @@ public class OrderController {
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
 
-    // ─────────────────────────────────────────────────────────
-    // CUSTOMER — Get their SubOrders (flat list)
-    // ─────────────────────────────────────────────────────────
+
     public void getSubOrdersForCustomer(String customerId,
                                         DatabaseService.DatabaseCallback<List<SubOrderModel>> callback) {
         firestore.collection(SUBORDERS_COLLECTION)
@@ -200,9 +189,6 @@ public class OrderController {
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
 
-    // ─────────────────────────────────────────────────────────
-    // Reduce stock after order placed
-    // ─────────────────────────────────────────────────────────
     private void reduceStock(List<CartModel> items) {
         if (items == null) return;
         for (CartModel item : items) {

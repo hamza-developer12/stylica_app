@@ -48,7 +48,7 @@ public class ModeratorVendorSignupActivity extends AppCompatActivity {
     CategoryController categoryController;
 
     // Data
-    String selectedRole = "moderator"; // default
+    String selectedRole = "moderator";
     List<String> categoryNames = new ArrayList<>();
     int passFlag = 0;
 

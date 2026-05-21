@@ -57,7 +57,7 @@ public class AddEditPaymentActivity extends BaseActivity {
 
         paymentController = PaymentController.getInstance();
 
-        // If edit — pre-fill fields
+        // If edit - pre-fill fields
         if (isEdit) {
             preFill();
         }

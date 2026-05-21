@@ -82,13 +82,10 @@ public class VendorAnalyticsActivity extends BaseActivity {
                         if (name != null) productNames.add(name);
                     }
 
-                    // Query suborders matching those product names
+                    // Query suborders
                     firestore.collection("suborders")
                             .whereEqualTo("vendorId", userId)
                             .whereEqualTo("domain", domain)
-//                            .whereIn("productName", productNames.size() > 10
-//                                    ? productNames.subList(0, 10)
-//                                    : productNames)
                             .get()
                             .addOnSuccessListener(subSnap -> {
                                 loader.setVisibility(View.GONE);

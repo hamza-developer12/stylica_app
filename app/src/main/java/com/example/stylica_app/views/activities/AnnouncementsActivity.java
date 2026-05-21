@@ -151,7 +151,6 @@ public class AnnouncementsActivity extends BaseActivity {
     private void showEndDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
 
-        // Set initial date to start date if available and if it's after current calendar
         if (startDate != null && startDate.before(calendar.getTime())) {
             calendar.setTime(startDate);
         }
@@ -329,7 +328,6 @@ public class AnnouncementsActivity extends BaseActivity {
 
         recyclerView.setAdapter(adapter);
 
-        // Show count if date filter is active
         if (hasActiveFilters() && !filtered.isEmpty()) {
             Toast.makeText(this, String.format("Found %d announcements", filtered.size()), Toast.LENGTH_SHORT).show();
         }
@@ -340,14 +338,12 @@ public class AnnouncementsActivity extends BaseActivity {
             return true;
         }
 
-        // Parse the createdAt timestamp from the announcement
         Date announcementDate = parseTimestamp(announcement.getCreatedAt());
 
         if (announcementDate == null) {
-            return startDate == null && endDate == null; // If no date, only show when no date filter
+            return startDate == null && endDate == null;
         }
 
-        // Check if date falls within the range
         boolean afterStartDate = startDate == null || !announcementDate.before(startDate);
         boolean beforeEndDate = endDate == null || !announcementDate.after(endDate);
 
@@ -373,7 +369,6 @@ public class AnnouncementsActivity extends BaseActivity {
             // Handle String format
             else if (timestamp instanceof String) {
                 String dateStr = (String) timestamp;
-                // Try different date formats
                 String[] formats = {
                         "dd MMM yyyy 'at' HH:mm:ss z",
                         "dd MMM yyyy",

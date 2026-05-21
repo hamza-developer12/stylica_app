@@ -160,10 +160,7 @@ public class SingleProductActivity extends AppCompatActivity {
 
     private void setupButtons() {
 
-        Log.d("CartDebug", "productId: " + product.getProductId());
-        Log.d("CartDebug", "productName: " + product.getProductName());
-        Log.d("CartDebug", "vendorId: " + product.getUserId());  // <-- is this null?
-        Log.d("CartDebug", "quantity: " + quantity);
+
 
             btnAddToCart.setOnClickListener(v -> {
                 CartDatabaseHelper cartDb = CartDatabaseHelper.getInstance(this);

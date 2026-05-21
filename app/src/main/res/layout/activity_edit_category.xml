@@ -12,7 +12,7 @@
     android:fitsSystemWindows="true"
     >
 
-    <!-- 🔹 Custom App Bar -->
+    <!-- Custom App Bar -->
     <include layout="@layout/custom_app_bar"/>
 
     <LinearLayout

@@ -81,7 +81,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
-                <!-- ✅ Role Selector -->
+                <!-- Role Selector -->
                 <TextView
                     android:id="@+id/txtRoleLabel"
                     android:layout_width="match_parent"

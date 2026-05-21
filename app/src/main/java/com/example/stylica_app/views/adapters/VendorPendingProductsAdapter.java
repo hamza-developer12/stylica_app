@@ -77,7 +77,7 @@ public class VendorPendingProductsAdapter extends
                 ? product.getCategory() : "—");
         holder.txtPrice.setText("Rs " + product.getPrice());
 
-        // Status badge — always "Pending" here but shown for clarity
+        // Status badge - always "Pending" here but shown for clarity
         holder.txtStatus.setText("Under Review");
         holder.txtStatus.setBackgroundColor(
                 android.graphics.Color.parseColor("#FFA000"));

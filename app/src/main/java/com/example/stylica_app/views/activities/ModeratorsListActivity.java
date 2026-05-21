@@ -125,7 +125,6 @@ public class ModeratorsListActivity extends BaseActivity {
     private void showEndDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
 
-        // Set initial date to start date if available and if it's after current calendar
         if (startDate != null && startDate.before(calendar.getTime())) {
             calendar.setTime(startDate);
         }
@@ -227,7 +226,7 @@ public class ModeratorsListActivity extends BaseActivity {
         Date moderatorDate = parseTimestamp(moderator.getCreatedAt());
 
         if (moderatorDate == null) {
-            return startDate == null && endDate == null; // If no date, only show when no date filter
+            return startDate == null && endDate == null;
         }
 
         // Check if date falls within the range

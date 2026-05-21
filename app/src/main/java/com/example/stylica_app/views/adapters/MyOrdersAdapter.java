@@ -67,7 +67,7 @@ public class MyOrdersAdapter extends
                 : "#—";
         holder.txtOrderId.setText(subOrderId);
 
-        // Status — show paymentStatus if still pending, else show fulfillment status
+        // Status - show paymentStatus if still pending, else show fulfillment status
         String paymentStatus = subOrder.getPaymentStatus() != null
                 ? subOrder.getPaymentStatus() : "pending";
         String fulfillmentStatus = subOrder.getStatus() != null

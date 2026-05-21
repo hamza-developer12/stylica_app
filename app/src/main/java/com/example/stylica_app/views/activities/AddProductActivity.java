@@ -140,7 +140,6 @@ public class AddProductActivity extends BaseActivity {
         }
     }
 
-    // Method to fetch vendors from Firestore using VendorController
     private void fetchVendors() {
         // Show loading state
         spinnerVendor.setEnabled(false);

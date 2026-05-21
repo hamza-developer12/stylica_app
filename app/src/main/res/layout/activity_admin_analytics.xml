@@ -30,7 +30,7 @@
             android:padding="16dp"
             android:paddingBottom="32dp">
 
-            <!-- ── ORDERS ── -->
+            <!--  ORDERS  -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

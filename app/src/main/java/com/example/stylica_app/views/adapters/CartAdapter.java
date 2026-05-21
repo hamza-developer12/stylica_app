@@ -83,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
 
         holder.btnIncrease.setOnClickListener(v -> {
-            // ✅ Check against stock quantity
+            // Check stock quantity
             if (item.getQuantity() < item.getStockQuantity()) {
                 int newQty = item.getQuantity() + 1;
                 item.setQuantity(newQty);

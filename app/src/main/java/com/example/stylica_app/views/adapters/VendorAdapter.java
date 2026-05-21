@@ -107,7 +107,6 @@ public class VendorAdapter extends ArrayAdapter<UserModel> {
         return convertView;
     }
 
-    // Open ProfileActivity with moderator's userId
     private void moveToEditScreen(UserModel model) {
         Intent i = new Intent(getContext(), EditProfileActivity.class);
         i.putExtra("userId", model.getUserId());
