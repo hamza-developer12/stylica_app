@@ -22,7 +22,6 @@ public  class CategoryController {
 
     DatabaseService<CategoryModel> dbService;
 
-//    ArrayList<CategoryModel> categories = new ArrayList<CategoryModel>();
 
     private CategoryController() {
         dbService = new DatabaseService<>(FirebaseFirestore.getInstance());
@@ -38,7 +37,6 @@ public  class CategoryController {
     public void addCategory(String categoryName, ArrayList<String> subcategories, DatabaseService.DatabaseCallback<String> callback) {
         String id = FirebaseFirestore.getInstance().collection(COLLECTION).document().getId();
         CategoryModel category = new CategoryModel(id, categoryName, subcategories, null, null);
-//        dbService.addRecord(COLLECTION, id,category, callback<String>);
         dbService.addRecord(COLLECTION, id, category, callback);
     }
 

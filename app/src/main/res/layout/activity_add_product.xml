@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/primary_light_variant_20"
     android:orientation="vertical"
-    tools:context=".views.activities.AddProductActivity">
+    tools:context=".views.activities.AddProductActivity"
+    android:fitsSystemWindows="true"
+    >
 
     <include layout="@layout/custom_app_bar"/>
 
@@ -94,6 +96,15 @@
                     android:inputType="number"
                     android:padding="15dp"/>
 
+                <!-- Vendor Spinner -->
+                <Spinner
+                    android:id="@+id/spinnerVendor"
+                    style="@style/InputFieldStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="15dp"/>
                 <!-- Category Spinner -->
                 <Spinner
                     android:id="@+id/spinnerProductCategory"

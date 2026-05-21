@@ -33,6 +33,7 @@ import com.example.stylica_app.helpers.CloudinaryHelper;
 import com.example.stylica_app.models.CategoryModel;
 import com.example.stylica_app.models.ProductModel;
 import com.example.stylica_app.services.DatabaseService;
+import com.example.stylica_app.services.SessionService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,18 +67,18 @@ public class EditProductActivity extends BaseActivity {
     String productId = null;
     ProductModel existingProduct = null;
 
+    SessionService sessionService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_edit_product);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         setupAppBar("Edit Product");
+
+        sessionService = new SessionService(this);
 
         // Get productId passed from adapter
         productId = getIntent().getStringExtra("productId");
@@ -106,7 +107,7 @@ public class EditProductActivity extends BaseActivity {
         categoryController = CategoryController.getInstance();
         productController = ProductController.getInstance(this);
 
-        // Allow image change on click
+        //  image change on click
         productImage.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -120,7 +121,6 @@ public class EditProductActivity extends BaseActivity {
         btnSubmit.setOnClickListener(v -> updateProduct());
     }
 
-    // ✅ Handle image selection result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,7 +136,6 @@ public class EditProductActivity extends BaseActivity {
         }
     }
 
-    // ✅ Fetch categories then pre-fill product
     private void fetchCategories() {
         isCategoriesLoading(true);
 
@@ -177,7 +176,6 @@ public class EditProductActivity extends BaseActivity {
                             public void onNothingSelected(AdapterView<?> parent) {}
                         });
 
-                // ✅ Now load the product and pre-fill
                 loadProductData();
             }
 
@@ -190,7 +188,6 @@ public class EditProductActivity extends BaseActivity {
         });
     }
 
-    // ✅ Load product from Firestore and pre-fill all fields
     private void loadProductData() {
         isCategoriesLoading(true);
 
@@ -271,6 +268,14 @@ public class EditProductActivity extends BaseActivity {
             return;
         }
 
+        String role = sessionService.getUserRole();
+        String domain = sessionService.getDomain();
+
+        if(role.equals("vendor") && !domain.equals(selectedCategory)) {
+            Toast.makeText(this, "Please select category matching your domain", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (position == 0) {
             Toast.makeText(this, "Please select a category", Toast.LENGTH_SHORT).show();
             return;
@@ -305,7 +310,8 @@ public class EditProductActivity extends BaseActivity {
             });
 
         } else {
-            // No new image — use existing image URL
+
+            //  use existing image URL
             saveUpdate(productName, price, quantity,
                     selectedCategory, selectedSubCategory,
                     productDescription, existingImageUrl,
@@ -313,11 +319,12 @@ public class EditProductActivity extends BaseActivity {
         }
     }
 
-    // ✅ Call controller to save update
     private void saveUpdate(String name, double price, int quantity,
                             String category, String subcategory,
                             String description, String imageUrl,
                             boolean isNewArrival, boolean isFeatured) {
+
+
         productController.updateProduct(
                 productId, name, price, quantity,
                 category, subcategory, description, imageUrl,

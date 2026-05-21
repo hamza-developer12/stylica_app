@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/primary_light_variant_20"
-    tools:context=".views.activities.AdminDashboardActivity">
+    tools:context=".views.activities.AdminDashboardActivity"
+    android:fitsSystemWindows="true"
+    >
 
     <LinearLayout
         android:id="@+id/header"
@@ -62,7 +64,7 @@
 
 
         <LinearLayout
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -85,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:gravity="center">
 
             <include
@@ -99,12 +101,13 @@
                 android:layout_height="match_parent" />
 
             <include
-                android:id="@+id/couriersScreenBtn"
+
+                android:id="@+id/pendingUsersBtn"
                 layout="@layout/custom_dashboard_card_layout" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -112,7 +115,7 @@
             >
 
             <include layout="@layout/custom_dashboard_card_layout"
-                android:id="@+id/pendingProductsScreenBtn"
+                android:id="@+id/paymentVerificationScreenBtn"
 
                 />
             <Space
@@ -121,6 +124,67 @@
             <include layout="@layout/custom_dashboard_card_layout"
                 android:id="@+id/paymentMethodsScreenBtn"
                 />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/announcementScreenBtn"
+
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/couriersScreenBtn"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/transactionsScreenBtn"
+
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/profileScreenBtn"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/vendorsScreenBtn"
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/analyticsScreenBtn"
+                />
+
         </LinearLayout>
 
     </LinearLayout>

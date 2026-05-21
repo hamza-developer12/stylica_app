@@ -59,6 +59,7 @@ public class ModeratorController {
 
     public void getModerators(DatabaseService.RealtimeCallback<List<UserModel>> callback){
         Map conditions = new HashMap();
+        conditions.put("verificationStatus", "approved");
         conditions.put("role", "moderator");
         dbService.listenWhere(COLLECTION, conditions, UserModel.class,callback);
     }
@@ -71,6 +72,8 @@ public class ModeratorController {
             body.put("email", email);
             body.put("password", password);
             body.put("domain", domain);
+            body.put("role", "moderator");
+            body.put("verificationStatus", "approved");
 
             apiService.post(addUserUrl, body, new ApiService.ApiCallback() {
                 @Override
@@ -86,6 +89,10 @@ public class ModeratorController {
         }catch (Exception e) {
             callback.onFailure(e.getMessage());
         }
+    }
+
+    public void deleteModerator(String userId, DatabaseService.DatabaseCallback<String> callback) {
+        dbService.deleteById(COLLECTION, userId, callback);
     }
 
     public interface ModeratorCallback {

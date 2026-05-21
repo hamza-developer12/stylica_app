@@ -1,5 +1,6 @@
 package com.example.stylica_app.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -36,6 +37,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText confirmPasswordField;
     ProgressBar loader;
     Button registerBtn;
+
+    TextView moderatorVendorSignupScreenText;
     UserController userController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +65,20 @@ public class SignupActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.login_btn);
         passwordIcon = findViewById(R.id.password_icon);
         confirmPasswordIcon = findViewById(R.id.confirm_password_icon);
+        moderatorVendorSignupScreenText = findViewById(R.id.moderator_vendor_signup_text);
+
+
         goBack();
         goToLogin(loginScreenBtnTxt);
 
         passwordIcon.setOnClickListener(view -> showHidePass());
         confirmPasswordIcon.setOnClickListener(view -> showHidePass());
+
+
+        moderatorVendorSignupScreenText.setOnClickListener(v->{
+            Intent i = new Intent(SignupActivity.this, ModeratorVendorSignupActivity.class);
+            startActivity(i);
+        });
     }
 
     public void goBack(){

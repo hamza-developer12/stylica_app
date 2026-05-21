@@ -1,242 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:fitsSystemWindows="true"
+    >
 
-
+    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="30dp">
+        android:background="@color/background_light"
+        android:fitsSystemWindows="true">
 
-        <include
-            layout="@layout/appbar_layout"
+        <!-- ===== CUSTOM APP BAR ===== -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-        <!-- ===== HERO BANNER ===== -->
-        <FrameLayout
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/primary_light"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:elevation="4dp">
+
+            <!-- Drawer Menu Icon (left) -->
+            <ImageButton
+                android:id="@+id/btnMenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/hamburger_menu_icon"
+                app:tint="@color/text_primary"
+                android:scaleType="fitCenter"
+                android:padding="6dp"/>
+
+            <!-- Title (center) -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Stylica"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:gravity="center"
+                android:fontFamily="serif"/>
+
+            <!-- Cart Icon (right) -->
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <ImageButton
+                    android:id="@+id/btnCart"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/cart_icon_black"
+                    app:tint="@color/text_primary"
+                    android:scaleType="fitCenter"
+                    android:padding="6dp"/>
+
+                <!-- Cart Badge -->
+                <TextView
+                    android:id="@+id/txtCartBadge"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:gravity="center"
+                    android:textSize="9sp"
+                    android:textColor="@color/text_white"
+                    android:background="@drawable/chip_selected_bg"
+                    android:text="0"
+                    android:layout_gravity="top|end"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <!-- ===== SCROLLABLE CONTENT ===== -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/primary">
+            android:layout_height="match_parent"
+            android:background="@color/background_light">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
-                android:padding="24dp">
+                android:paddingBottom="30dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/hero_image"
+                       android:scaleType="fitXY"
 
+                        />
+                </FrameLayout>
+
+
+
+                <!-- SHOP BY CATEGORY -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Stylica - Where\nBeauty Meets Fashion"
-                    android:textColor="@color/text_white"
-                    android:textSize="22sp"
+                    android:text="Shop by Category"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:gravity="center"/>
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"/>
 
-                <TextView
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:layout_marginTop="12dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/categoryChips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
+
+                </HorizontalScrollView>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/primary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="24dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stylica - Where\nBeauty Meets Fashion"
+                            android:textColor="@color/text_white"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Premium makeup And clothing for the modern woman"
+                            android:textColor="@color/text_white"
+                            android:textSize="13sp"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnShopNow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Shop Now"
+                            android:textColor="@color/primary"
+                            android:background="@color/text_white"
+                            android:layout_marginTop="16dp"
+                            android:paddingHorizontal="24dp"/>
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- FEATURED PRODUCTS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Best Sellers"
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtSeeAllBestSellers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="See All"
+                        android:textColor="@color/primary_light_variant"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/loaderBestSellers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Premium makeup And clothing for the modern woman"
-                    android:textColor="@color/text_white"
-                    android:textSize="13sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/primary_light_variant"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnShopNow"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/featuredProductsView"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="16dp"
+
+                    android:layout_height="wrap_content"/>
+
+                <!-- NEW ARRIVALS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="New Arrivals"
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/txtSeeAllNewArrivals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="See All"
+                        android:textColor="@color/primary_light_variant"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/loaderNewArrivals"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="Shop Now"
-                    android:textColor="@color/primary"
-                    android:background="@color/text_white"
-                    android:layout_marginTop="16dp"
-                    android:paddingHorizontal="24dp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/primary_light_variant"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/newProductsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="16dp"
+                />
 
             </LinearLayout>
-        </FrameLayout>
-
-        <!-- ===== SHOP BY CATEGORY ===== -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Shop by Category"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="16dp"/>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginTop="12dp"
-            android:paddingHorizontal="16dp">
-
-            <LinearLayout
-                android:id="@+id/categoryChips"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
-        </HorizontalScrollView>
-
-        <!-- ===== PROMO BANNER ===== -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/surface"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="30% OFF"
-                android:textColor="@color/primary_dark"
-                android:textSize="22sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Limited Time Offer"
-                android:textColor="@color/text_primary"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="2dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="On all skincare products"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
-
-            <Button
-                android:id="@+id/btnShopSale"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:text="Shop Sale"
-                android:textColor="@color/text_white"
-                android:background="@color/primary"
-                android:layout_marginTop="12dp"
-                android:paddingHorizontal="20dp"/>
-
-        </LinearLayout>
-
-        <!-- ===== BEST SELLERS ===== -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Best Sellers"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/txtSeeAllBestSellers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="See All"
-                android:textColor="@color/primary_light_variant"
-                android:textSize="13sp"/>
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/loaderBestSellers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminateTint="@color/primary_light_variant"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginTop="12dp"
-            android:paddingHorizontal="16dp">
-
-            <LinearLayout
-                android:id="@+id/bestSellersList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
-        </HorizontalScrollView>
-
-        <!-- ===== NEW ARRIVALS ===== -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="New Arrivals"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/txtSeeAllNewArrivals"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="See All"
-                android:textColor="@color/primary_light_variant"
-                android:textSize="13sp"/>
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/loaderNewArrivals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminateTint="@color/primary_light_variant"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginTop="12dp"
-            android:paddingHorizontal="16dp">
-
-            <LinearLayout
-                android:id="@+id/newArrivalsList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
-        </HorizontalScrollView>
+        </ScrollView>
 
     </LinearLayout>
-</ScrollView>
+
+    <!-- ===== NAVIGATION DRAWER ===== -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/card_background"
+        app:headerLayout="@layout/nav_header_customer"
+        app:menu="@menu/customer_nav_menu"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -28,8 +28,18 @@ public class AdminDashboardActivity extends DashboardHeaderComponent {
     View moderatorsCard;
     View couriersCard;
 
-    View pendingProductsCard;
     View paymentMethodsCard;
+
+    View announcementScreenCard;
+
+    View pendingUsersCard;
+
+    View paymentVerificationScreenCard;
+    View transactionsScreenCard;
+    View profileScreenCard;
+
+    View vendorsScreenCard;
+    View analyticsScreenCard;
 
 
     AdminController adminController;
@@ -38,13 +48,9 @@ public class AdminDashboardActivity extends DashboardHeaderComponent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_admin_dashboard);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         headerTitle = findViewById(R.id.header_title);
         sessionService = new SessionService(this);
         adminController = new AdminController(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance());
@@ -61,26 +67,45 @@ public class AdminDashboardActivity extends DashboardHeaderComponent {
     }
 
     private void initializeCards() {
+        // Cards
         prodCard = findViewById(R.id.productsScreenBtn);
         catCard = findViewById(R.id.categoriesScreenBtn);
         moderatorsCard = findViewById(R.id.moderatorsScreenBtn);
         couriersCard = findViewById(R.id.couriersScreenBtn);
-        pendingProductsCard = findViewById(R.id.pendingProductsScreenBtn);
         paymentMethodsCard = findViewById(R.id.paymentMethodsScreenBtn);
+        pendingUsersCard = findViewById(R.id.pendingUsersBtn);
+        paymentVerificationScreenCard = findViewById(R.id.paymentVerificationScreenBtn);
+        transactionsScreenCard = findViewById(R.id.transactionsScreenBtn);
+        announcementScreenCard = findViewById(R.id.announcementScreenBtn);
+        profileScreenCard = findViewById(R.id.profileScreenBtn);
+        analyticsScreenCard = findViewById(R.id.analyticsScreenBtn);
+        vendorsScreenCard = findViewById(R.id.vendorsScreenBtn);
 
         TextView catText = catCard.findViewById(R.id.cardText);
         TextView prodText = prodCard.findViewById(R.id.cardText);
         TextView moderatorText = moderatorsCard.findViewById(R.id.cardText);
         TextView courierText = couriersCard.findViewById(R.id.cardText);
-        TextView pendingProductText = pendingProductsCard.findViewById(R.id.cardText);
         TextView paymentMethodsText = paymentMethodsCard.findViewById(R.id.cardText);
+        TextView announcementText = announcementScreenCard.findViewById(R.id.cardText);
+        TextView pendingUsersText = pendingUsersCard.findViewById(R.id.cardText);
+        TextView pendingOrdersText = paymentVerificationScreenCard.findViewById(R.id.cardText);
+        TextView transactionsText = transactionsScreenCard.findViewById(R.id.cardText);
+        TextView profileScreenText = profileScreenCard.findViewById(R.id.cardText);
+        TextView analyticsScreenText = analyticsScreenCard.findViewById(R.id.cardText);
+        TextView vendorsScreenCardText = vendorsScreenCard.findViewById(R.id.cardText);
 
         catText.setText("Categories");
         prodText.setText("Products");
         moderatorText.setText("Moderators");
         courierText.setText("Couriers");
-        pendingProductText.setText("Pending Products");
         paymentMethodsText.setText("Payment Methods");
+        announcementText.setText("Announcements");
+        pendingUsersText.setText("Pending Users");
+        pendingOrdersText.setText("Payments\n Verification");
+        transactionsText.setText("Transactions");
+        profileScreenText.setText("Profile\n Management");
+        vendorsScreenCardText.setText("Vendors");
+        analyticsScreenText.setText("Analytics");
 
         prodCard.setOnClickListener(v->{
             Intent i = new Intent(AdminDashboardActivity.this, ProductsViewActivity.class);
@@ -101,14 +126,38 @@ public class AdminDashboardActivity extends DashboardHeaderComponent {
             startActivity(i);
         });
 
-        pendingProductsCard.setOnClickListener(v->{
-            Intent i = new Intent(AdminDashboardActivity.this, PendingProductsActivity.class);
-            startActivity(i);
-        });
-
         paymentMethodsCard.setOnClickListener(v->{
             Intent i = new Intent(AdminDashboardActivity.this, PaymentMethodsActivity.class);
             startActivity(i);
         });
+
+        announcementScreenCard.setOnClickListener(v->{
+            Intent i = new Intent(AdminDashboardActivity.this, AnnouncementsActivity.class);
+            startActivity(i);
+        });
+
+        pendingUsersCard.setOnClickListener(v->{
+            Intent i = new Intent(AdminDashboardActivity.this, PendingUsersActivity.class);
+            startActivity(i);
+        });
+        paymentVerificationScreenCard.setOnClickListener(v-> {
+            startActivity(new Intent(AdminDashboardActivity.this, AdminOrdersActivity.class));
+        });
+        transactionsScreenCard.setOnClickListener(v->{
+            startActivity(new Intent(AdminDashboardActivity.this, TransactionsActivity.class));
+        });
+
+        profileScreenCard.setOnClickListener(v->{
+            startActivity(new Intent(AdminDashboardActivity.this, ProfileActivity.class));
+        });
+
+        vendorsScreenCard.setOnClickListener(v->{
+            startActivity(new Intent(AdminDashboardActivity.this, VendorsListActivity.class));
+        });
+
+        analyticsScreenCard.setOnClickListener(v->{
+            startActivity(new Intent(AdminDashboardActivity.this, AdminAnalyticsActivity.class));
+        });
+
     }
 }

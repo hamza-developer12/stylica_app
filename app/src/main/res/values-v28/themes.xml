@@ -1,0 +1,8 @@
+<resources>
+    <style name="Base.Theme.Stylica_app" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/primary_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.Stylica_app" parent="Base.Theme.Stylica_app" />
+</resources>

@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
+    implementation(libs.drawerlayout)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
@@ -59,6 +60,7 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.cardview)
     implementation(libs.fragment)
+    testImplementation(libs.ext.junit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -71,4 +73,5 @@ dependencies {
     implementation(libs.volley)
     implementation(libs.cloudinary.android)
     implementation("com.github.bumptech.glide:glide:4.14.2")
+    testImplementation("junit:junit:4.13.2")
 }

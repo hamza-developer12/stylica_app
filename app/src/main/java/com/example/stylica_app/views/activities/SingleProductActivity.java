@@ -20,6 +20,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.stylica_app.R;
 import com.example.stylica_app.controllers.ProductController;
+import com.example.stylica_app.helpers.CartDatabaseHelper;
+import com.example.stylica_app.models.CartModel;
 import com.example.stylica_app.models.ProductModel;
 import com.example.stylica_app.services.DatabaseService;
 import com.example.stylica_app.services.SessionService;
@@ -46,13 +48,9 @@ public class SingleProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_single_product);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         sessionService = new SessionService(this);
         // Get productId from previous screen
@@ -90,7 +88,6 @@ public class SingleProductActivity extends AppCompatActivity {
     }
 
     private void fetchProduct(String productId) {
-        // ✅ Hide content while loading
         findViewById(R.id.addToCartView).setVisibility(View.GONE);
 
         productController.getProductById(productId,
@@ -162,10 +159,32 @@ public class SingleProductActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        btnAddToCart.setOnClickListener(v -> {
-            // TODO: implement cart
-            Toast.makeText(this,
-                    product.getProductName() + " added to cart!", Toast.LENGTH_SHORT).show();
-        });
+
+        Log.d("CartDebug", "productId: " + product.getProductId());
+        Log.d("CartDebug", "productName: " + product.getProductName());
+        Log.d("CartDebug", "vendorId: " + product.getUserId());  // <-- is this null?
+        Log.d("CartDebug", "quantity: " + quantity);
+
+            btnAddToCart.setOnClickListener(v -> {
+                CartDatabaseHelper cartDb = CartDatabaseHelper.getInstance(this);
+
+                CartModel cartItem = new CartModel(
+                        product.getProductId(),
+                        product.getProductName(),
+                        product.getImageUrl(),
+                        product.getPrice(),
+                        product.getCategory(),
+                        quantity,
+                        product.getStockQuantity(),
+                        product.getUserId()
+                );
+
+                cartDb.addToCart(cartItem);
+                Toast.makeText(this,
+                        product.getProductName() + " added to cart!",
+                        Toast.LENGTH_SHORT).show();
+            });
+
+
     }
 }

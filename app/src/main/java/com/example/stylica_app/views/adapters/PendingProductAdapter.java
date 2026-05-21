@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -27,10 +28,9 @@ public class PendingProductAdapter extends
     private List<ProductModel> products;
     private OnActionListener listener;
 
-    // Interface so activity handles approve/reject logic
     public interface OnActionListener {
         void onApprove(ProductModel product, int position);
-        void onReject(ProductModel product, int position);
+        void onReject(ProductModel product, int position, String reason);
     }
 
     public PendingProductAdapter(Context context,
@@ -104,11 +104,23 @@ public class PendingProductAdapter extends
 
         // Reject with confirmation
         holder.btnReject.setOnClickListener(v -> {
+            // Show input dialog for rejection reason
+            android.widget.EditText reasonInput = new android.widget.EditText(context);
+            reasonInput.setHint("Enter rejection reason...");
+            reasonInput.setPadding(48, 24, 48, 24);
+
             new AlertDialog.Builder(context)
                     .setTitle("Reject Product")
-                    .setMessage("Reject \"" + product.getProductName() + "\"?")
+                    .setMessage("Rejecting \"" + product.getProductName() + "\"")
+                    .setView(reasonInput)
                     .setPositiveButton("Reject", (dialog, which) -> {
-                        listener.onReject(product, holder.getAdapterPosition());
+                        String reason = reasonInput.getText().toString().trim();
+                        if (reason.isEmpty()) {
+                            Toast.makeText(context, "Please enter a reason",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        listener.onReject(product, holder.getAdapterPosition(), reason);
                     })
                     .setNegativeButton("Cancel", null)
                     .show();

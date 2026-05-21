@@ -1,100 +1,214 @@
 package com.example.stylica_app.views.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.stylica_app.R;
 import com.example.stylica_app.controllers.CategoryController;
 import com.example.stylica_app.controllers.ProductController;
+import com.example.stylica_app.controllers.UserController;
+import com.example.stylica_app.helpers.CartDatabaseHelper;
 import com.example.stylica_app.models.CategoryModel;
 import com.example.stylica_app.models.ProductModel;
+import com.example.stylica_app.models.UserModel;
 import com.example.stylica_app.services.DatabaseService;
+import com.example.stylica_app.services.SessionService;
+import com.example.stylica_app.views.adapters.CustomerHomeProductAdapter;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDashboardActivity extends AppCompatActivity {
 
+    FirebaseFirestore firestore;
+    FirebaseAuth auth;
+
+    // App bar views
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ImageButton btnMenu, btnCart;
+
+    Button btnShopNow;
+
+    TextView txtCartBadge;
+
+    TextView txtSeeAllBestSellers, txtSeeAllNewArrivals;
+
     // Controllers
     ProductController productController;
     CategoryController categoryController;
+    UserController userController;
+    SessionService sessionService;
+    CartDatabaseHelper cartDb;
+
+    RecyclerView featuredProductsView, newProductsView;
 
     // Containers
-    LinearLayout bestSellersList, newArrivalsList, categoryChips;
-
-    // Loaders
+    LinearLayout  categoryChips;
     ProgressBar loaderBestSellers, loaderNewArrivals;
 
-    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_customer_dashboard);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        // Init
-        productController  = ProductController.getInstance(this);
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        productController = ProductController.getInstance(this);
         categoryController = CategoryController.getInstance();
+        userController = new UserController(auth, firestore);
+        sessionService = new SessionService(this);
+        cartDb = CartDatabaseHelper.getInstance(this);
 
-        bestSellersList  = findViewById(R.id.bestSellersList);
-        newArrivalsList  = findViewById(R.id.newArrivalsList);
+
+
+        // App bar
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+        btnMenu = findViewById(R.id.btnMenu);
+        btnCart = findViewById(R.id.btnCart);
+
+
+        txtCartBadge = findViewById(R.id.txtCartBadge);
+        txtSeeAllBestSellers = findViewById(R.id.txtSeeAllBestSellers);
+        txtSeeAllNewArrivals = findViewById(R.id.txtSeeAllNewArrivals);
+
+        featuredProductsView = findViewById(R.id.featuredProductsView);
+        newProductsView  = findViewById(R.id.newProductsView);
+
+        btnShopNow = findViewById(R.id.btnShopNow);
+
+
+        featuredProductsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        newProductsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
         categoryChips    = findViewById(R.id.categoryChips);
-        loaderBestSellers  = findViewById(R.id.loaderBestSellers);
-        loaderNewArrivals  = findViewById(R.id.loaderNewArrivals);
-        toolbar = findViewById(R.id.myToolBar);
+        loaderBestSellers = findViewById(R.id.loaderBestSellers);
+        loaderNewArrivals = findViewById(R.id.loaderNewArrivals);
 
+        // Open drawer on menu click
+        btnMenu.setOnClickListener(v ->
+                drawerLayout.openDrawer(GravityCompat.START));
 
-        setSupportActionBar(toolbar);
-        // Load all sections
+        // Cart button
+        btnCart.setOnClickListener(v ->
+                startActivity(new Intent(this, CartActivity.class)));
+
+        // Setup nav drawer header with user info
+        setupNavHeader();
+
+        // Nav drawer item clicks
+        setupNavMenu();
+
+        // Load data
         loadCategories();
         loadProducts();
 
-        // Shop Now button
-        findViewById(R.id.btnShopNow).setOnClickListener(v -> {
-            Intent i = new Intent(this, ProductsViewActivity.class);
+        txtSeeAllBestSellers.setOnClickListener(v->{
+            Intent i = new Intent(CustomerDashboardActivity.this, ProductsViewActivity.class);
             startActivity(i);
         });
-
-        // Shop Sale button
-        findViewById(R.id.btnShopSale).setOnClickListener(v -> {
-            Intent i = new Intent(this, ProductsViewActivity.class);
-            startActivity(i);
+        txtSeeAllNewArrivals.setOnClickListener(v-> {
+            startActivity(new Intent(CustomerDashboardActivity.this, ProductsViewActivity.class));
         });
 
-        // See All Best Sellers
-        findViewById(R.id.txtSeeAllBestSellers).setOnClickListener(v -> {
-            Intent i = new Intent(this, ProductsViewActivity.class);
-            startActivity(i);
-        });
-
-        // See All New Arrivals
-        findViewById(R.id.txtSeeAllNewArrivals).setOnClickListener(v -> {
-            Intent i = new Intent(this, ProductsViewActivity.class);
-            startActivity(i);
+        btnShopNow.setOnClickListener(v-> {
+            startActivity(new Intent(CustomerDashboardActivity.this, ProductsViewActivity.class));
         });
     }
 
-    // ✅ Load categories and build chips
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Update cart badge every time screen resumes
+        updateCartBadge();
+    }
+
+    private void updateCartBadge() {
+        int count = cartDb.getCartCount();
+        if (count > 0) {
+            txtCartBadge.setVisibility(View.VISIBLE);
+            txtCartBadge.setText(String.valueOf(count));
+        } else {
+            txtCartBadge.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupNavHeader() {
+        View header = navigationView.getHeaderView(0);
+        TextView navAvatar = header.findViewById(R.id.navAvatar);
+        TextView navName   = header.findViewById(R.id.navName);
+        TextView navEmail  = header.findViewById(R.id.navEmail);
+
+        String name  = sessionService.getUserName();
+        String email = sessionService.getUserEmail();
+
+        navName.setText(name != null ? name : "Customer");
+        navEmail.setText(email != null ? email : "");
+        navAvatar.setText(name != null && !name.isEmpty()
+                ? String.valueOf(name.charAt(0)).toUpperCase() : "C");
+    }
+
+    private void setupNavMenu() {
+        navigationView.setNavigationItemSelectedListener(item -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                // Already on home — do nothing
+            } else if (id == R.id.nav_products) {
+                startActivity(new Intent(this, ProductsViewActivity.class));
+            } else if (id == R.id.nav_cart) {
+                startActivity(new Intent(this, CartActivity.class));
+            } else if (id == R.id.nav_orders) {
+
+                startActivity(new Intent(this, MyOrdersActivity.class));
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+            } else if (id == R.id.nav_announcements) {
+                startActivity(new Intent(this, AnnouncementsActivity.class));
+            } else if (id == R.id.nav_logout) {
+                userController.logout(this);
+            }
+
+            return true;
+        });
+    }
+
     private void loadCategories() {
         categoryController.getAllCategories(
                 new DatabaseService.DatabaseCallback<List<CategoryModel>>() {
@@ -107,165 +221,45 @@ public class CustomerDashboardActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(String errorMessage) {
-                        Toast.makeText(CustomerDashboardActivity.this,
-                                "Failed to load categories", Toast.LENGTH_SHORT).show();
-                    }
+                    public void onFailure(String errorMessage) {}
                 });
     }
 
     private void loadProducts() {
         loaderBestSellers.setVisibility(View.VISIBLE);
         loaderNewArrivals.setVisibility(View.VISIBLE);
-
-        productController.getAllProducts(new DatabaseService.RealtimeCallback<List<ProductModel>>() {
+        productController.getLimitedProducts("featured", true, 4, new DatabaseService.DatabaseCallback<List<ProductModel>>() {
             @Override
-            public void onDataChange(List<ProductModel> data) {
+            public void onSuccess(List<ProductModel> data) {
                 loaderBestSellers.setVisibility(View.GONE);
-                loaderNewArrivals.setVisibility(View.GONE);
-
-                if (data == null) return;
-
-                // Split into best sellers and new arrivals
-                List<ProductModel> bestSellers = new ArrayList<>();
-                List<ProductModel> newArrivals = new ArrayList<>();
-
-                for (ProductModel p : data) {
-                    if (p.getFeatured()) bestSellers.add(p);
-                    if (p.getNew())      newArrivals.add(p);
-                }
-
-                buildProductCards(bestSellersList, bestSellers, "BEST SELLER");
-                buildProductCards(newArrivalsList, newArrivals, "NEW");
+                CustomerHomeProductAdapter featuredProductsAdapter = new CustomerHomeProductAdapter(CustomerDashboardActivity.this,data);
+                featuredProductsView.setAdapter(featuredProductsAdapter);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 loaderBestSellers.setVisibility(View.GONE);
+
+                Toast.makeText(CustomerDashboardActivity.this, "Error: "+errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        productController.getLimitedProducts("new", true, 4, new DatabaseService.DatabaseCallback<List<ProductModel>>() {
+            @Override
+            public void onSuccess(List<ProductModel> data) {
                 loaderNewArrivals.setVisibility(View.GONE);
+                CustomerHomeProductAdapter newArrivalProductsAdapter = new CustomerHomeProductAdapter(CustomerDashboardActivity.this,data);
+                newProductsView.setAdapter(newArrivalProductsAdapter);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                loaderNewArrivals.setVisibility(View.GONE);
+                Toast.makeText(CustomerDashboardActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    // ✅ Build product cards dynamically
-    private void buildProductCards(LinearLayout container,
-                                   List<ProductModel> products,
-                                   String badge) {
-        container.removeAllViews();
-
-        if (products.isEmpty()) {
-            TextView empty = new TextView(this);
-            empty.setText("No products found");
-            empty.setTextColor(getColor(R.color.text_secondary));
-            empty.setPadding(16, 16, 16, 16);
-            container.addView(empty);
-            return;
-        }
-
-        for (ProductModel product : products) {
-            // Card container
-            LinearLayout card = new LinearLayout(this);
-            card.setOrientation(LinearLayout.VERTICAL);
-            card.setBackgroundResource(R.drawable.product_card_bg);
-
-            LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
-                    (int) (160 * getResources().getDisplayMetrics().density),
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            cardParams.setMarginEnd((int) (12 * getResources().getDisplayMetrics().density));
-            card.setLayoutParams(cardParams);
-            card.setPadding(0, 0, 0,
-                    (int) (12 * getResources().getDisplayMetrics().density));
-
-            // Product image
-            FrameLayout imgContainer = new FrameLayout(this);
-            LinearLayout.LayoutParams imgContainerParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    (int) (130 * getResources().getDisplayMetrics().density)
-            );
-            imgContainer.setLayoutParams(imgContainerParams);
-
-            ImageView img = new ImageView(this);
-            img.setLayoutParams(new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT));
-            img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Glide.with(this)
-                    .load(product.getImageUrl())
-                    .placeholder(R.drawable.image_placeholder_bg)
-                    .into(img);
-            imgContainer.addView(img);
-
-            // Badge label (BEST SELLER / NEW)
-            TextView badgeView = new TextView(this);
-            badgeView.setText(badge);
-            badgeView.setTextColor(getColor(R.color.text_white));
-            badgeView.setBackgroundColor(getColor(R.color.primary));
-            badgeView.setTextSize(9);
-            int badgePad = (int) (4 * getResources().getDisplayMetrics().density);
-            badgeView.setPadding(badgePad, badgePad, badgePad, badgePad);
-            FrameLayout.LayoutParams badgeParams = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-            );
-            badgeParams.gravity = android.view.Gravity.TOP | android.view.Gravity.START;
-            badgeParams.setMargins(badgePad, badgePad, 0, 0);
-            badgeView.setLayoutParams(badgeParams);
-            imgContainer.addView(badgeView);
-
-            card.addView(imgContainer);
-
-            // Product name
-            TextView name = new TextView(this);
-            name.setText(product.getProductName());
-            name.setTextColor(getColor(R.color.text_primary));
-            name.setTextSize(13);
-            int pad = (int) (8 * getResources().getDisplayMetrics().density);
-            name.setPadding(pad, pad, pad, 2);
-            name.setMaxLines(2);
-            card.addView(name);
-
-            // Price
-            TextView price = new TextView(this);
-            price.setText("Rs " + product.getPrice());
-            price.setTextColor(getColor(R.color.primary_light_variant));
-            price.setTextSize(13);
-            price.setTypeface(null, android.graphics.Typeface.BOLD);
-            price.setPadding(pad, 2, pad, 0);
-            card.addView(price);
-
-            // Add to cart button
-            TextView addBtn = new TextView(this);
-            addBtn.setText("Add to Cart");
-            addBtn.setTextColor(getColor(R.color.text_white));
-            addBtn.setBackgroundColor(getColor(R.color.primary_light_variant));
-            addBtn.setTextSize(11);
-            addBtn.setGravity(android.view.Gravity.CENTER);
-            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    (int) (34 * getResources().getDisplayMetrics().density)
-            );
-            btnParams.setMargins(pad, pad, pad, 0);
-            addBtn.setLayoutParams(btnParams);
-            addBtn.setOnClickListener(v ->
-                    Toast.makeText(this,
-                            product.getProductName() + " added to cart!",
-                            Toast.LENGTH_SHORT).show()
-            );
-            card.addView(addBtn);
-
-            // Open product on card click
-            card.setOnClickListener(v -> {
-                Intent i = new Intent(this, SingleProductActivity.class);
-                i.putExtra("productId", product.getProductId());
-                startActivity(i);
-            });
-
-            container.addView(card);
-        }
-    }
-
-    // ✅ Build a single category chip
     private void addCategoryChip(String categoryName) {
         LinearLayout chip = new LinearLayout(this);
         chip.setOrientation(LinearLayout.VERTICAL);
@@ -273,43 +267,38 @@ public class CustomerDashboardActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams chipParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        chipParams.setMarginEnd((int) (16 * getResources().getDisplayMetrics().density));
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        chipParams.setMarginEnd(
+                (int) (16 * getResources().getDisplayMetrics().density));
         chip.setLayoutParams(chipParams);
 
-        // Circle icon background
+        // Circle icon
         TextView icon = new TextView(this);
         int size = (int) (56 * getResources().getDisplayMetrics().density);
-        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(size, size);
-        icon.setLayoutParams(iconParams);
+        icon.setLayoutParams(new LinearLayout.LayoutParams(size, size));
         icon.setBackgroundResource(R.drawable.chip_selected_bg);
         icon.setGravity(android.view.Gravity.CENTER);
-        icon.setText(categoryName.substring(0, 1).toUpperCase()); // first letter
+        icon.setText(categoryName.substring(0, 1).toUpperCase());
         icon.setTextColor(getColor(R.color.text_white));
         icon.setTextSize(18);
         chip.addView(icon);
 
-        // Category name below icon
+        // Label
         TextView label = new TextView(this);
         label.setText(categoryName);
         label.setTextColor(getColor(R.color.text_primary));
         label.setTextSize(12);
         label.setGravity(android.view.Gravity.CENTER);
-        int topMargin = (int) (4 * getResources().getDisplayMetrics().density);
         LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        labelParams.topMargin = topMargin;
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        labelParams.topMargin =
+                (int) (4 * getResources().getDisplayMetrics().density);
         label.setLayoutParams(labelParams);
         chip.addView(label);
 
-        // On click — go to products filtered by category
-        chip.setOnClickListener(v -> {
-            Intent i = new Intent(this, ProductsViewActivity.class);
-            startActivity(i);
-        });
+        chip.setOnClickListener(v ->
+                startActivity(new Intent(this, ProductsViewActivity.class)));
 
         categoryChips.addView(chip);
     }

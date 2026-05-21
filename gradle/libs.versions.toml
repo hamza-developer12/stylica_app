@@ -22,6 +22,7 @@ cardview = "1.0.0"
 fragment = "1.8.9"
 volley = "1.2.1"
 activityKtx = "1.8.0"
+drawerlayout = "1.2.0"
 
 [libraries]
 cloudinary-android = { module = "com.cloudinary:cloudinary-android", version.ref = "cloudinaryAndroid" }
@@ -52,6 +53,7 @@ cardview = { group = "androidx.cardview", name = "cardview", version.ref = "card
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
 activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+drawerlayout = { group = "androidx.drawerlayout", name = "drawerlayout", version.ref = "drawerlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

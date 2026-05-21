@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/primary_light_variant_20"
+    tools:context=".views.activities.VendorDashboardActivity"
+    android:fitsSystemWindows="true"
+    >
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Child Layout (Text block) -->
+            <LinearLayout
+                android:id="@+id/text_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome Back,"
+                    style="@style/header_title"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/header_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vendor Dashboard"
+                    style="@style/header_subtitle"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <!-- ImageButton aligned to right -->
+            <ImageButton
+                android:id="@+id/logoutBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logout_icon"
+
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@android:color/transparent"
+
+                android:contentDescription="Add"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/productsScreenBtn"
+
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/vendorOrdersScreenBtn"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/vendorPendingProductsScreenBtn"
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/vendorRejectedProductsScreenBtn"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            >
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/profileScreenBtn"
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+
+            <include layout="@layout/custom_dashboard_card_layout"
+                android:id="@+id/analyticsScreenBtn"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -39,7 +39,7 @@ public class ApiService {
         getRequestQueue().add(req);
     }
 
-    // 🔥 Common Error Parser
+    // Common Error Parser
     private JSONObject parseError(VolleyError error) {
         JSONObject errorObj = new JSONObject();
 
@@ -59,7 +59,7 @@ public class ApiService {
         return errorObj;
     }
 
-    // 🔥 GET Request
+    // GET Request
     public void get(String url, ApiCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -72,7 +72,7 @@ public class ApiService {
         addToRequestQueue(request);
     }
 
-    // 🔥 POST Request
+    // POST Request
     public void post(String url, JSONObject body, ApiCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
@@ -85,7 +85,7 @@ public class ApiService {
         addToRequestQueue(request);
     }
 
-    // 🔥 PUT Request
+    // PUT Request
     public void put(String url, JSONObject body, ApiCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
@@ -98,7 +98,7 @@ public class ApiService {
         addToRequestQueue(request);
     }
 
-    // 🔥 DELETE Request
+    // DELETE Request
     public void delete(String url, ApiCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.DELETE,
@@ -111,7 +111,7 @@ public class ApiService {
         addToRequestQueue(request);
     }
 
-    // 🔥 Callback Interface
+    // Callback Interface
     public interface ApiCallback {
         void onSuccess(JSONObject response);
         void onError(JSONObject error);

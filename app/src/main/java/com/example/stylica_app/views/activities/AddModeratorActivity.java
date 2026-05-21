@@ -51,13 +51,9 @@ public class AddModeratorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_add_moderator);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
 
         setupAppBar("Add Moderator");
@@ -111,7 +107,7 @@ public class AddModeratorActivity extends BaseActivity {
         moderatorController.addModerator(firstName, lastName, email, password, domain, new ModeratorController.ModeratorCallback()  {
             @Override
             public void onSuccess(String message) {
-                Toast.makeText(AddModeratorActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddModeratorActivity.this, "Moderator Added Successfully", Toast.LENGTH_SHORT).show();
                 loader.setVisibility(View.GONE);
                 btnSubmit.setVisibility(View.VISIBLE);
                 finish();

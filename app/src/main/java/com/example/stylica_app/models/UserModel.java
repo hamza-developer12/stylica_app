@@ -21,7 +21,7 @@ public class UserModel implements Serializable {
     private String address;
 
     private String domain;
-    private boolean verified;
+    private String verificationStatus;
 
     private String deviceToken;
 
@@ -35,7 +35,7 @@ public class UserModel implements Serializable {
 
 
     public UserModel(){}
-    public UserModel(String userId, String firstName, String lastName, String gender, String email, String role, String contactNumber, String address, String domain, boolean verified) {
+    public UserModel(String userId, String firstName, String lastName, String gender, String email, String role, String contactNumber, String address, String domain, String verificationStatus) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,7 +45,7 @@ public class UserModel implements Serializable {
         this.contactNumber = contactNumber;
         this.address = address;
         this.domain = domain;
-        this.verified = verified;
+        this.verificationStatus = verificationStatus;
         this.deviceToken = "";
     }
 
@@ -57,12 +57,12 @@ public class UserModel implements Serializable {
         this.domain = domain;
     }
 
-    public boolean isVerified() {
-        return verified;
+    public String getVerificationStatus() {
+        return verificationStatus;
     }
 
-    public void setVerified(boolean verified) {
-        this.verified = verified;
+    public void setVerificationStatus(String verificationStatus) {
+        this.verificationStatus = verificationStatus;
     }
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -178,7 +178,7 @@ public class UserModel implements Serializable {
                 ", contactNumber='" + contactNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", domain='" + domain + '\'' +
-                ", verified=" + verified +
+                ", verificationStatus=" + verificationStatus +
                 ", deviceToken='" + deviceToken + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

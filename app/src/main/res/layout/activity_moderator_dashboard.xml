@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/primary_light_variant_20"
-    tools:context=".views.activities.ModeratorDashboardActivity">
+    tools:context=".views.activities.ModeratorDashboardActivity"
+    android:fitsSystemWindows="true"
+    >
 
     <LinearLayout
         android:id="@+id/header"
@@ -21,24 +23,27 @@
         <include
             layout="@layout/dashboard_header_layout"
             />
+
         <LinearLayout
-            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            >
+            android:layout_marginTop="40dp"
+            android:gravity="center">
 
-            <include layout="@layout/custom_dashboard_card_layout"
+            <include
                 android:id="@+id/productsScreenBtn"
+                layout="@layout/custom_dashboard_card_layout"
 
                 />
+
             <Space
                 android:layout_width="20dp"
-                android:layout_height="match_parent"/>
-            <include layout="@layout/custom_dashboard_card_layout"
-                android:id="@+id/categoriesScreenBtn"
-                />
+                android:layout_height="match_parent" />
+
+            <include
+                android:id="@+id/ordersScreenBtn"
+                layout="@layout/custom_dashboard_card_layout" />
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +54,7 @@
             android:gravity="center">
 
             <include
-                android:id="@+id/moderatorsScreenBtn"
+                android:id="@+id/pendingProductsScreenBtn"
                 layout="@layout/custom_dashboard_card_layout"
 
                 />
@@ -59,7 +64,7 @@
                 android:layout_height="match_parent" />
 
             <include
-                android:id="@+id/couriersScreenBtn"
+                android:id="@+id/profileScreenBtn"
                 layout="@layout/custom_dashboard_card_layout" />
         </LinearLayout>
 

@@ -23,22 +23,22 @@ public class EditCourierActivity extends BaseActivity {
     String courierName;
     String email;
     String phoneNumber;
+
+    double deliveryCharges;
+
+    String deliveryDays;
     Button btnSubmit;
     ProgressBar loader;
 
     CourierController courierController;
 
-    EditText edtCourierName, edtPhoneNumber, edtEmail;
+    EditText edtCourierName, edtPhoneNumber, edtEmail, edtDeliveryCharges, edtDeliveryDays;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_edit_courier);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         setupAppBar("Edit Courier");
 
@@ -47,6 +47,8 @@ public class EditCourierActivity extends BaseActivity {
         courierName = getIntent().getStringExtra("courierName");
         email = getIntent().getStringExtra("email");
         phoneNumber = getIntent().getStringExtra("phoneNumber");
+        deliveryCharges = getIntent().getDoubleExtra("deliveryCharges",0);
+        deliveryDays = getIntent().getStringExtra("deliveryDays");
 
         initializeFields();
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -62,25 +64,40 @@ public class EditCourierActivity extends BaseActivity {
         edtCourierName = findViewById(R.id.edtCourierName);
         edtEmail = findViewById(R.id.edtEmail);
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber);
+        edtDeliveryCharges = findViewById(R.id.edtDeliveryCharges);
+        edtDeliveryDays = findViewById(R.id.edtDeliveryDays);
 
-        Log.d("Phone Number", phoneNumber);
 
         edtCourierName.setText(courierName);
         edtPhoneNumber.setText(phoneNumber);
         edtEmail.setText(email);
+
+        String tmpDeliveryChargesString = deliveryCharges+"";
+        edtDeliveryCharges.setText(tmpDeliveryChargesString);
+        edtDeliveryDays.setText(deliveryDays);
     }
 
     public void updateCourier() {
         String tmpCourierName = edtCourierName.getText().toString().trim();
         String tmpPhoneNumber = edtPhoneNumber.getText().toString().trim();
         String tmpEmail = edtEmail.getText().toString().trim();
-
+        String tmpDeliveryCharges = edtDeliveryCharges.getText().toString().trim();
+        String tmpDeliveryDays = edtDeliveryDays.getText().toString().trim();
         if(tmpCourierName.isEmpty() || tmpPhoneNumber.isEmpty() || tmpEmail.isEmpty()) {
             Toast.makeText(this, "Please provide all details", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        courierController.updateCourier(courierId, tmpCourierName, tmpPhoneNumber, tmpEmail, new DatabaseService.DatabaseCallback<String>() {
+        double charges;
+        try{
+            charges = Double.parseDouble(tmpDeliveryCharges);
+        }catch (NumberFormatException e) {
+            charges = 0;
+        }
+
+//        TODO:
+
+        courierController.updateCourier(courierId, tmpCourierName, tmpPhoneNumber, tmpEmail,charges,tmpDeliveryDays ,new DatabaseService.DatabaseCallback<String>() {
             @Override
             public void onSuccess(String data) {
                 finish();

@@ -3,10 +3,10 @@ package com.example.stylica_app.models;
 public class PaymentMethodModel {
 
     private String id;
-    private String type;           // "card", "jazzcash", "easypaisa"
-    private String accountTitle;   // "Stylica Official"
-    private String accountNumber;  // "0300-1234567"
-    private String instructions;   // "Send payment and upload screenshot"
+    private String type;
+    private String accountTitle;
+    private String accountNumber;
+    private String instructions;
 
     public PaymentMethodModel() {}
 

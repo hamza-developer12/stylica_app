@@ -1,6 +1,7 @@
 package com.example.stylica_app.views.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,13 +36,9 @@ public class PendingProductsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_pending_products);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         setupAppBar("Pending Products");
 
@@ -72,7 +69,6 @@ public class PendingProductsActivity extends BaseActivity {
                         showEmpty(false);
                         pendingProducts = data;
 
-                        // Set adapter with approve/reject callbacks
                         adapter = new PendingProductAdapter(
                                 PendingProductsActivity.this,
                                 pendingProducts,
@@ -105,11 +101,11 @@ public class PendingProductsActivity extends BaseActivity {
                                                     }
                                                 });
                                     }
-
                                     @Override
-                                    public void onReject(ProductModel product, int position) {
+                                    public void onReject(ProductModel product, int position, String reason) {
                                         productController.rejectProduct(
                                                 product.getProductId(),
+                                                reason,                    // ← pass reason
                                                 new DatabaseService.DatabaseCallback<String>() {
                                                     @Override
                                                     public void onSuccess(String data) {
@@ -125,6 +121,7 @@ public class PendingProductsActivity extends BaseActivity {
 
                                                     @Override
                                                     public void onFailure(String errorMessage) {
+
                                                         Toast.makeText(
                                                                 PendingProductsActivity.this,
                                                                 "Failed: " + errorMessage,
@@ -140,6 +137,7 @@ public class PendingProductsActivity extends BaseActivity {
                     @Override
                     public void onFailure(String errorMessage) {
                         loading(false);
+                        Log.e("PENDINGPRODUCTSERROR", errorMessage);
                         Toast.makeText(PendingProductsActivity.this,
                                 "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
                     }

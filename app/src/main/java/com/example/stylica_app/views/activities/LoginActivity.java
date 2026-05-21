@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsAnimationCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stylica_app.R;
@@ -30,185 +28,196 @@ import com.example.stylica_app.services.SessionService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.jspecify.annotations.NonNull;
+
+import java.util.List;
+import java.util.Random;
+
 public class LoginActivity extends AppCompatActivity {
+
     int eyeFlag = 0;
-    ImageView eyeIcon;
     EditText emailField;
     EditText passwordField;
-
     TextView goToSignupScreenText;
     ProgressBar loader;
-    Button signInBtn;
+    com.google.android.material.button.MaterialButton signInBtn;
+
+    // Captcha
+    TextView captchaTextView;
+    EditText captchaInput;
+    String currentCaptcha = "";
 
     UserController userController;
-    WebView webView;
     CardView loginCardView;
-    LinearLayout webContainer;
-    boolean waitingForCaptcha = false;
     SessionService sessionService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+
+        View rootView = findViewById(R.id.main);
+
+        // 1. Apply system bar insets as padding (keeps EdgeToEdge working)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // 2. Smoothly push content up when keyboard appears/disappears
+        ViewCompat.setWindowInsetsAnimationCallback(rootView,
+                new WindowInsetsAnimationCompat.Callback(
+                        WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_STOP) {
+
+                    @Override
+                    public WindowInsetsCompat onProgress(WindowInsetsCompat insets,
+                                                                  List<WindowInsetsAnimationCompat> runningAnimations) {
+                        Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
+                        Insets barInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                        rootView.setPadding(
+                                barInsets.left,
+                                barInsets.top,
+                                barInsets.right,
+                                Math.max(imeInsets.bottom, barInsets.bottom)
+                        );
+                        return insets;
+                    }
+                });
+
         sessionService = new SessionService(LoginActivity.this);
-//        Initialize....
         userController = new UserController(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance());
 
-        loginCardView = findViewById(R.id.login_card);
-        emailField = findViewById(R.id.email_field);
-        passwordField = findViewById(R.id.password_field);
-        webView = findViewById(R.id.webview);
+        loginCardView        = findViewById(R.id.login_card);
+        emailField           = findViewById(R.id.email_field);
+        passwordField        = findViewById(R.id.password_field);
         goToSignupScreenText = findViewById(R.id.signup_screen_btn);
-        signInBtn = findViewById(R.id.login_btn);
-        loader = findViewById(R.id.loader);
-        webContainer = findViewById(R.id.web_container);
+        signInBtn            = findViewById(R.id.login_btn);
+        loader               = findViewById(R.id.loader);
+        captchaTextView      = findViewById(R.id.captcha_text);
+        captchaInput         = findViewById(R.id.captcha_input);
 
+        generateCaptcha();
         moveToSignupScreen();
-
-
-
     }
 
+    // ─── Captcha ─────────────────────────────────────────────────────────────────
 
-    public void showOrHidePasswd(View v) {
-        ImageView eyeIcon = findViewById(R.id.show_hide_passwd_icon);
-        if (eyeFlag == 0) {
-            // Show password
-            passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            eyeIcon.setImageResource(R.drawable.eye_off);
-            eyeFlag = 1;
-        } else {
-            // Hide password
-            passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            eyeIcon.setImageResource(R.drawable.eye_on);
-            eyeFlag = 0;
+    private void generateCaptcha() {
+        // Excludes visually ambiguous chars: 0/O, 1/I/l
+        String chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
         }
-
-        passwordField.setSelection(passwordField.getText().length());
+        currentCaptcha = sb.toString();
+        captchaTextView.setText(currentCaptcha);
+        captchaInput.setText("");
     }
 
-    public void moveToSignupScreen() {
-        goToSignupScreenText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), SignupActivity.class);
-                startActivity(i);
-            }
-        });
+    public void refreshCaptcha(View v) {
+        generateCaptcha();
     }
 
-public void login(View v) {
-    String email = emailField.getText().toString().trim();
-    String password = passwordField.getText().toString().trim();
-
-    if (email.isEmpty() || password.isEmpty()) {
-        Toast.makeText(this, "Please provide all Fields", Toast.LENGTH_SHORT).show();
-        return;
+    private boolean isCaptchaValid() {
+        return captchaInput.getText().toString().trim().equals(currentCaptcha);
     }
 
-    // Show WebView and start captcha flow
-    waitingForCaptcha = true;
-    webContainer.setVisibility(View.VISIBLE);
+    // ─── Auth ─────────────────────────────────────────────────────────────────────
 
-    webView.getSettings().setJavaScriptEnabled(true);
-
-    webView.addJavascriptInterface(new Object(){
-        @android.webkit.JavascriptInterface
-        public void sendToken(String token){
-           runOnUiThread(()-> onCaptchaTokenReceived(token));
-        }
-    },"Android");
-    // Load the captcha page
-    webView.loadUrl("https://dulcet-sprite-b1b821.netlify.app/");
-
-
-}
-    private void toggleLoading(boolean isLoading) {
-        if (isLoading) {
-            loader.setVisibility(VISIBLE);
-            signInBtn.setVisibility(View.INVISIBLE);
-        } else {
-            loader.setVisibility(View.INVISIBLE);
-            signInBtn.setVisibility(VISIBLE);
-        }
-    }
-    private void onCaptchaTokenReceived(String token) {
-        Log.d("TOKEN_FOR_CAPTCHA", token);
-        if(!token.isEmpty()) {
-            webContainer.setVisibility(View.GONE);
-            performLoginWithCaptcha(token);
-
-        }else {
-
-            webContainer.setVisibility(View.GONE);
-            Toast.makeText(this, "Captcha Verification Failed", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void performLoginWithCaptcha(String captchaToken) {
-        String email = emailField.getText().toString().trim();
+    public void login(View v) {
+        String email    = emailField.getText().toString().trim();
         String password = passwordField.getText().toString().trim();
 
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please provide all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isCaptchaValid()) {
+            Toast.makeText(this, "Captcha does not match. Try again.", Toast.LENGTH_SHORT).show();
+            generateCaptcha();
+            return;
+        }
+
+        performLogin(email, password);
+    }
+
+    private void performLogin(String email, String password) {
         toggleLoading(true);
 
-        // Pass the token to your UserController
         userController.login(email, password, new UserController.UserCallback<UserModel>() {
             @Override
             public void onSuccess(UserModel data) {
                 toggleLoading(false);
-
                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-
                 Log.d("USER_DATA", data.toString());
-                Intent i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
-                startActivity(i);
-                finish();
-                String name = data.getFirstName()+ " " + data.getLastName();
-                sessionService.saveUser(data.getUserId(),
-                        name,
-                        data.getRole(),data.getEmail(),true,data.isVerified(),data.getDomain());
-//
-              moveToScreen(data.getRole(), data.isVerified());
+
+                String name = data.getFirstName() + " " + data.getLastName();
+                sessionService.saveUser(
+                        data.getUserId(), name, data.getRole(),
+                        data.getEmail(), true,
+                        data.getVerificationStatus(), data.getDomain()
+                );
+                moveToScreen(data.getRole(), data.getVerificationStatus());
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 toggleLoading(false);
+                generateCaptcha();
                 Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void moveToScreen(String role, boolean isVerified) {
-        Intent i = null;
-        if(isVerified) {
-            switch (role) {
-                case "admin":
-                    i = new Intent(LoginActivity.this, AdminDashboardActivity.class);
-                    break;
-                case "moderator":
-                    i = new Intent(LoginActivity.this, ModeratorDashboardActivity.class);
-                    break;
+    // ─── Navigation ──────────────────────────────────────────────────────────────
 
-                case "customer":
-                    i = new Intent(LoginActivity.this, CustomerDashboardActivity.class);
-                    break;
-            }
-        }else {
-        }
-        startActivity(i);
-//        finish();
+    public void moveToSignupScreen() {
+        goToSignupScreenText.setOnClickListener(view ->
+                startActivity(new Intent(view.getContext(), SignupActivity.class)));
     }
 
-    public void closeWebView(View view) {
-        webContainer.setVisibility(View.INVISIBLE);
+    public void moveToScreen(String role, String verificationStatus) {
+        Intent i;
+        if ("approved".equals(verificationStatus)) {
+            switch (role) {
+                case "admin":     i = new Intent(this, AdminDashboardActivity.class);     break;
+                case "moderator": i = new Intent(this, ModeratorDashboardActivity.class); break;
+                case "vendor":    i = new Intent(this, VendorDashboardActivity.class);    break;
+                case "customer":  i = new Intent(this, CustomerDashboardActivity.class);  break;
+                default:          i = new Intent(this, PendingVerificationActivity.class);
+            }
+        } else {
+            i = new Intent(this, PendingVerificationActivity.class);
+        }
+        startActivity(i);
+        finish();
+    }
+
+    // ─── UI Helpers ───────────────────────────────────────────────────────────────
+
+    public void showOrHidePasswd(View v) {
+        if (eyeFlag == 0) {
+            passwordField.setInputType(
+                    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            ((ImageView) v.findViewById(R.id.show_hide_passwd_icon))
+                    .setImageResource(R.drawable.eye_off);
+            eyeFlag = 1;
+        } else {
+            passwordField.setInputType(
+                    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            ((ImageView) v.findViewById(R.id.show_hide_passwd_icon))
+                    .setImageResource(R.drawable.eye_on);
+            eyeFlag = 0;
+        }
+        passwordField.setSelection(passwordField.getText().length());
+    }
+
+    private void toggleLoading(boolean isLoading) {
+        loader.setVisibility(isLoading ? VISIBLE : View.GONE);
+        signInBtn.setVisibility(isLoading ? View.INVISIBLE : VISIBLE);
     }
 }

@@ -1,103 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light_variant_20"
+    android:fillViewport="true"
     tools:context=".views.activities.LoginActivity">
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:visibility="visible"
-        android:id="@+id/login_card"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="17dp"
-        android:outlineSpotShadowColor="@color/primary_light_variant_20"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
 
-        app:cardCornerRadius="12dp"
-        app:cardElevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <FrameLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/login_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingVertical="20dp"
-                >
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="17dp"
+            android:outlineSpotShadowColor="@color/primary_light_variant_20"
+            android:visibility="visible"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="20dp">
+
+                <!-- STYLICA Brand -->
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="48dp"
                     android:layout_marginEnd="32dp"
                     android:letterSpacing="0.1"
                     android:text="STYLICA"
                     android:textColor="@color/primary_light_variant"
-                    android:textSize="30sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="30sp" />
 
+                <!-- Welcome Back -->
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="Welcome Back"
                     android:textColor="@color/text_primary"
                     android:textSize="34sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    android:textStyle="bold" />
 
-
+                <!-- Subtitle -->
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginStart="45dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="45dp"
+                    android:gravity="center"
                     android:lineSpacingExtra="3sp"
                     android:text="Please sign in to continue to your boutique"
                     android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
-                <!--            Text Field 1-->
+                    android:textSize="14sp" />
+
+                <!-- Email Label -->
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="45dp"
                     android:lineSpacingExtra="3sp"
-                    android:pointerIcon="context_menu"
                     android:text="Email Address"
                     android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    android:textSize="14sp" />
 
+                <!-- Email Field -->
                 <LinearLayout
                     android:id="@+id/linearLayout3"
                     android:layout_width="match_parent"
@@ -106,55 +97,45 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="45dp"
                     android:background="@drawable/rounded_field_shape"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="12dp"
+                    android:paddingStart="12dp"
                     android:paddingTop="8dp"
-
-                    android:paddingBottom="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4">
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp">
 
                     <EditText
                         android:id="@+id/email_field"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@null"
-
                         android:ems="10"
                         android:hint="botique@stylica.com"
-
                         android:inputType="textEmailAddress" />
 
                     <ImageView
                         android:id="@+id/imageView2"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_weight="1"
                         app:srcCompat="@drawable/mail" />
 
                 </LinearLayout>
 
-
-                <!--            Text Field 2-->
+                <!-- Password Label -->
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="45dp"
                     android:lineSpacingExtra="3sp"
-                    android:pointerIcon="context_menu"
                     android:text="Password"
                     android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+                    android:textSize="14sp" />
 
+                <!-- Password Field -->
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
@@ -163,114 +144,162 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="45dp"
                     android:background="@drawable/rounded_field_shape"
-                    android:gravity="center"
-
-                    android:paddingHorizontal="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8">
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp">
 
                     <EditText
                         android:id="@+id/password_field"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@null"
                         android:ems="10"
                         android:hint="••••••••"
-
-
                         android:inputType="textPassword" />
 
                     <LinearLayout
                         android:id="@+id/show_hide_passwd_btn"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:onClick="showOrHidePasswd"
-                        android:paddingLeft="10dp">
+                        android:paddingStart="10dp">
 
                         <ImageView
                             android:id="@+id/show_hide_passwd_icon"
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:contentDescription="eye icon"
-
                             android:src="@drawable/eye_on" />
-                    </LinearLayout>
 
-                    <!--                <ImageView-->
-                    <!--                    android:id="@+id/show_hide_passwd_icon"-->
-                    <!--                    android:layout_width="20dp"-->
-                    <!--                    android:layout_height="20dp"-->
-                    <!--                    android:layout_weight="1"-->
-                    <!--                    android:onClick="showOrHidePasswd"-->
-                    <!--                    app:srcCompat="@drawable/eye_on" />-->
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <!--            <com.google.android.material.button.MaterialButton-->
-                <!--                android:id="@+id/login_btn"-->
-                <!--                style="@style/PrimaryButton"-->
-                <!--                android:layout_marginStart="45dp"-->
-                <!--                android:layout_marginEnd="45dp"-->
-                <!--                android:onClick="login"-->
-                <!--                android:text="Sign In"-->
-                <!--                android:visibility="visible"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintHorizontal_bias="0.5"-->
-                <!--                app:layout_constraintStart_toStartOf="parent"-->
-                <!--                tools:layout_editor_absoluteY="456dp" />-->
+                <!-- ===== CAPTCHA SECTION ===== -->
+                <LinearLayout
+                    android:id="@+id/captchaSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="45dp"
+                    android:orientation="vertical">
 
+                    <!-- Captcha Label -->
+                    <TextView
+                        android:id="@+id/textCaptchaHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:lineSpacingExtra="3sp"
+                        android:text="Captcha Verification"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <!-- Captcha Display Row: Code + Refresh -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Captcha Code Box -->
+                        <TextView
+                            android:id="@+id/captcha_text"
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_field_shape"
+                            android:fontFamily="monospace"
+                            android:gravity="center"
+                            android:letterSpacing="0.3"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textColor="@color/primary_light_variant"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <!-- Refresh Button -->
+                        <ImageView
+                            android:id="@+id/captcha_refresh_btn"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="Refresh captcha"
+                            android:onClick="refreshCaptcha"
+                            android:padding="10dp"
+                            android:src="@drawable/refresh_icon" />
+
+                    </LinearLayout>
+
+                    <!-- Captcha Input Field -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_field_shape"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp">
+
+                        <EditText
+                            android:id="@+id/captcha_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@null"
+                            android:hint="Enter captcha above"
+                            android:inputType="textNoSuggestions"
+                            android:maxLength="6"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!-- ===== END CAPTCHA SECTION ===== -->
+
+                <!-- Loader -->
                 <ProgressBar
                     android:id="@+id/loader"
-
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="36dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
                     android:indeterminateTint="@color/primary_light_variant"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                    android:visibility="gone" />
 
+                <!-- Sign In Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/login_btn"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:layout_marginStart="45dp"
-
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="45dp"
                     android:backgroundTint="@color/primary_light_variant"
                     android:onClick="login"
                     android:text="Sign In"
                     android:textSize="16sp"
                     android:visibility="visible"
-                    app:cornerRadius="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                    app:cornerRadius="8dp" />
 
+                <!-- Sign Up Row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="45dp"
-                    android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/login_btn">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -295,33 +324,10 @@
 
                 </LinearLayout>
 
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffff"
-                android:orientation="vertical"
-                android:gravity="end"
-                android:id="@+id/web_container"
-                android:visibility="invisible"
-                >
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Close"
-                    style="@style/PrimaryButton"
-                    android:onClick="closeWebView"
-                    android:id="@+id/web_close_btn"/>
-                <WebView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/webview"/>
             </LinearLayout>
-        </FrameLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
+    </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -38,13 +38,9 @@ public class PaymentMethodsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_payment_methods);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         setupAppBar("Payment Methods");
 
@@ -102,7 +98,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                                                 public void onSuccess() {
                                                     adapter.removeItem(position);
                                                     Toast.makeText(PaymentMethodsActivity.this,
-                                                            "Deleted ✓", Toast.LENGTH_SHORT).show();
+                                                            "Deleted Successfully", Toast.LENGTH_SHORT).show();
                                                     if (adapter.getItemCount() == 0) {
                                                         showEmpty(true);
                                                     }

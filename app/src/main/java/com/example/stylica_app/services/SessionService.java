@@ -11,7 +11,7 @@ public class SessionService {
     private static final String KEY_ROLE = "role";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_LOGGEDIN = "isLoggedIn";
-    private static final String KEY_VERIFIED = "verified";
+    private static final String KEY_VERIFICATION_STATUS = "verificationStatus";
     private static  final String KEY_DOMAIN = "domain";
     private static final String KEY_USER_NAME = "name";
     private SharedPreferences prefs;
@@ -21,15 +21,15 @@ public class SessionService {
         editor = prefs.edit();
     }
 
-    public void saveUser(String userId, String name, String role, String email,boolean isLoggedIn,  boolean verified, String domain) {
+    public void saveUser(String userId, String name, String role, String email,boolean isLoggedIn,  String verificationStatus, String domain) {
         editor.putString(KEY_USER_ID, userId);
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_EMAIL, email);
-        editor.putBoolean(KEY_VERIFIED, verified);
+        editor.putString(KEY_VERIFICATION_STATUS, verificationStatus);
         editor.putBoolean(KEY_LOGGEDIN, isLoggedIn);
         editor.putString(KEY_DOMAIN, domain);
         editor.putString(KEY_USER_NAME, name);
-        editor.apply(); // async commit
+        editor.apply();
     }
 
     public String getUserId() {
@@ -42,8 +42,8 @@ public class SessionService {
         return prefs.getString(KEY_EMAIL, "");
     }
 
-    public boolean getUserVerifiedStatus() {
-        return prefs.getBoolean(KEY_VERIFIED, false);
+    public String getUserVerifiedStatus() {
+        return prefs.getString(KEY_VERIFICATION_STATUS, "pending");
     }
     public boolean getUserLoggedInStatus() {
         return prefs.getBoolean(KEY_LOGGEDIN, false);
@@ -54,8 +54,14 @@ public class SessionService {
     public String getDomain() {
         return prefs.getString(KEY_DOMAIN,"");
     }
+
+    public void updateVerificationStatus(String status) {
+        editor.putString(KEY_VERIFICATION_STATUS, status);
+        editor.apply();
+    }
     public void clearUser() {
         editor.clear();
         editor.apply();
     }
+
 }

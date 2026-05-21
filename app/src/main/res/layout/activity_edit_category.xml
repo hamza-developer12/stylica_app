@@ -8,7 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light_variant_20"
-    tools:context=".views.activities.EditCategoryActivity">
+    tools:context=".views.activities.EditCategoryActivity"
+    android:fitsSystemWindows="true"
+    >
 
     <!-- 🔹 Custom App Bar -->
     <include layout="@layout/custom_app_bar"/>

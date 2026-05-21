@@ -14,6 +14,90 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stylica_app">
         <activity
+            android:name=".views.activities.ModeratorOrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.ModeratorOrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.AddVendorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorAnalyticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.AdminAnalyticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorPendingProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorRejectedProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.TransactionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.TransactionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.AdminOrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.PendingPaymentsVerificationListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.PendingUsersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.PendingVerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.ModeratorVendorSignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.ImageViewerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorOrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorOrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.OrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.MyOrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.VendorViewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.AddEditAnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.AnnouncementsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.activities.AddEditPaymentActivity"
             android:exported="false" />
         <activity
@@ -84,7 +168,8 @@
             android:exported="false" />
         <activity
             android:name=".views.activities.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

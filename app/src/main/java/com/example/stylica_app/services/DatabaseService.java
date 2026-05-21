@@ -86,6 +86,28 @@ public final class DatabaseService<T> {
         });
     }
 
+    public void findWhereMultipleConditions(String collection, Map<String, Object> conditions, Class<T> modelClass, DatabaseCallback<List<T>> callback) {
+        Query query = firestore.collection(collection);
+
+
+        for (Map.Entry<String,Object> entry : conditions.entrySet()) {
+            query = query.whereEqualTo(entry.getKey(), entry.getValue());
+        }
+
+        query.get().addOnSuccessListener(data -> {
+            List<T> records = new ArrayList<T>();
+            for (DocumentSnapshot doc : data.getDocuments()) {
+                T record = doc.toObject(modelClass);
+                if (record != null) {
+                    records.add(record);
+                }
+            }
+            callback.onSuccess(records);
+        }).addOnFailureListener(e -> {
+            callback.onFailure(e.getMessage());
+        });
+    }
+
     public void deleteById(String collection, String id, DatabaseCallback<String> callback) {
         firestore.collection(collection).document(id).delete().addOnSuccessListener(aVoid->{
             callback.onSuccess("Record Deleted Successfully");
@@ -101,6 +123,7 @@ public final class DatabaseService<T> {
             query = query.whereEqualTo(entry.getKey(), entry.getValue());
         }
 
+        query = query.orderBy("createdAt", Query.Direction.DESCENDING);
         query.addSnapshotListener((querySnapShot, error) -> {
             if(error != null) {
                 callback.onFailure(error.getMessage());
@@ -137,6 +160,7 @@ public final class DatabaseService<T> {
                     listener.onResult(false);
                 });
     }
+
     public void listenAll(String collection, Class<T> modelClass, RealtimeCallback<List<T>> callback) {
 
         firestore.collection(collection)
@@ -160,6 +184,46 @@ public final class DatabaseService<T> {
 
                         callback.onDataChange(records);
                     }
+                });
+    }
+
+    public void getLimitedRecords(String collection,
+                                  Map<String, Object> conditions,
+                                  int count,
+                                  Class<T> modelClass,
+                                  DatabaseCallback<List<T>> callback) {
+
+        Query query = firestore.collection(collection);
+
+        for (Map.Entry<String, Object> entry : conditions.entrySet()) {
+            query = query.whereEqualTo(entry.getKey(), entry.getValue());
+        }
+
+        query = query
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .limit(count);
+
+        query.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+                    List<T> list = new ArrayList<>();
+
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+
+                        T item = doc.toObject(modelClass);
+
+                        if (item != null) {
+                            list.add(item);
+                        }
+                    }
+
+                    callback.onSuccess(list);
+
+                })
+                .addOnFailureListener(e -> {
+
+                    callback.onFailure(e.getMessage());
+
                 });
     }
     public interface DatabaseCallback<T> {

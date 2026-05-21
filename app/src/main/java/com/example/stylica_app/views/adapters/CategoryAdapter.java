@@ -64,11 +64,11 @@ public class CategoryAdapter extends ArrayAdapter<CategoryModel> {
                         .setTitle("Delete Category")
                         .setMessage("Are you sure you want to delete this category?")
                         .setPositiveButton("Yes", (dialog, which) -> {
-                            // Step 1: UI turant update
+
                             categories.remove(model);
                             notifyDataSetChanged();
 
-                            // Step 2: Firebase delete background mein
+
                             CategoryController.getInstance().deleteCategory(model.getCategoryId(),
                                     new DatabaseService.DatabaseCallback<String>() {
                                         @Override

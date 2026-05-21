@@ -23,13 +23,11 @@ public class ProductController {
 
     SessionService sessionService;
 
-    // 🔹 Delete Callback Interface
     public interface DeleteCallback {
         void onSuccess();
         void onFailure(String error);
     }
 
-    // 🔹 Update Callback Interface
     public interface UpdateCallback {
         void onSuccess();
         void onFailure(String error);
@@ -71,13 +69,21 @@ public class ProductController {
         Map conditions = new HashMap();
         String role = sessionService.getUserRole();
         String userId = sessionService.getUserId();
+        String domain = sessionService.getDomain();
 
         conditions.put("status", "approved");
 
         if(role.equals("moderator")) {
-            conditions.put("userId",userId);
+            conditions.put("category",domain);
         }
         dbService.listenWhere(COLLECTION, conditions, ProductModel.class, callback);
+    }
+
+    public void getLimitedProducts(String key, Object value,int productCount, DatabaseService.DatabaseCallback callback) {
+        Map conditions = new HashMap();
+        conditions.put("status", "approved");
+        conditions.put(key, value);
+        dbService.getLimitedRecords(COLLECTION,conditions,productCount,ProductModel.class,callback);
     }
 
 
@@ -146,24 +152,77 @@ public class ProductController {
 
     }
 
-    // Get pending products
     public void getPendingProducts(DatabaseService.RealtimeCallback callback) {
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("status", "pending");
         dbService.listenWhere(COLLECTION, conditions, ProductModel.class, callback);
     }
 
-    // Approve product
+
     public void approveProduct(String productId, DatabaseService.DatabaseCallback callback) {
         Map<String, Object> update = new HashMap<>();
         update.put("status", "approved");
         dbService.updateRecord(COLLECTION, productId, update, callback);
     }
 
-    // Reject product
     public void rejectProduct(String productId, DatabaseService.DatabaseCallback callback) {
         Map<String, Object> update = new HashMap<>();
         update.put("status", "rejected");
         dbService.updateRecord(COLLECTION, productId, update, callback);
+    }
+
+    public void getAllProductsWhere(DatabaseService.RealtimeCallback callback) {
+        String userId = sessionService.getUserId();
+        Map conditions = new HashMap();
+        conditions.put("status","approved");
+        if(userId != null) {
+            conditions.put("userId", userId);
+        }
+        dbService.listenWhere(COLLECTION,conditions, ProductModel.class,callback);
+    }
+
+    // Moderator rejects with reason
+    public void rejectProduct(String productId, String reason,
+                              DatabaseService.DatabaseCallback callback) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("status", "rejected");
+        update.put("rejectionReason", reason);
+        dbService.updateRecord(COLLECTION, productId, update, callback);
+    }
+
+    // Vendor queries their own rejected products
+    public void getRejectedProductsForVendor(String userId,
+                                             DatabaseService.DatabaseCallback callback) {
+        firestore.collection(COLLECTION)
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("status", "rejected")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    List<ProductModel> list = snapshot.toObjects(ProductModel.class);
+                    callback.onSuccess(list);
+                })
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    // Vendor resubmits product for review
+    public void resubmitProduct(String productId,
+                                DatabaseService.DatabaseCallback callback) {
+        Map<String, Object> update = new HashMap<>();
+        update.put("status", "pending");
+        update.put("rejectionReason", null);
+        dbService.updateRecord(COLLECTION, productId, update, callback);
+    }
+
+    public void getPendingProductsForVendor(String userId,
+                                            DatabaseService.DatabaseCallback callback) {
+        firestore.collection(COLLECTION)
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("status", "pending")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    List<ProductModel> list = snapshot.toObjects(ProductModel.class);
+                    callback.onSuccess(list);
+                })
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
 }

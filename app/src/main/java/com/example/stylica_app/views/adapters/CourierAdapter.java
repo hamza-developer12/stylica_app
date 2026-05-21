@@ -64,11 +64,9 @@ public class CourierAdapter extends ArrayAdapter<CourierModel> {
                         .setTitle("Delete Category")
                         .setMessage("Are you sure you want to delete this category?")
                         .setPositiveButton("Yes", (dialog, which) -> {
-                            // Step 1: UI turant update
                             couriers.remove(model);
                             notifyDataSetChanged();
 
-                            // Step 2: Firebase delete background mein
                             courierController.deleteCourier(model.getCourierId(), new DatabaseService.DatabaseCallback<String>() {
                                 @Override
                                 public void onSuccess(String data) {
@@ -98,8 +96,8 @@ public class CourierAdapter extends ArrayAdapter<CourierModel> {
         i.putExtra("phoneNumber", model.getPhoneNumber());
         i.putExtra("email", model.getEmail());
         i.putExtra("courierId", model.getCourierId());
-
-
+        i.putExtra("deliveryCharges", model.getDeliveryCharges());
+        i.putExtra("deliveryDays", model.getDeliveryDays());
         getContext().startActivity(i);
     }
 }

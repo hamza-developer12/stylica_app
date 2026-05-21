@@ -29,11 +29,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context context;
     private List<ProductModel> products;
     private ProductController productController;
+    private String userRole;
 
-    public ProductAdapter(Context context, List<ProductModel> products) {
+    public ProductAdapter(Context context, List<ProductModel> products, String userRole) {
         this.context = context;
         this.products = products;
         this.productController = ProductController.getInstance(context);
+        this.userRole = userRole;
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -55,8 +57,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.item_product, parent, false);
+        View view;
+        if(userRole.equals("customer")){
+            view = LayoutInflater.from(context).inflate(R.layout.item_product_card,parent, false);
+        }else {
+            view = LayoutInflater.from(context)
+                    .inflate(R.layout.item_product, parent, false);
+
+        }
         return new ProductViewHolder(view);
     }
 
@@ -67,11 +75,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.txtProductName.setText(product.getProductName());
         holder.txtProductPrice.setText("Rs " + product.getPrice());
 
-        String categoryText = product.getCategory() != null ? product.getCategory()
-                : product.getSubcategory() != null ? product.getSubcategory()
-                : "Uncategorized";
-        holder.txtCategory.setText(categoryText);
-
         Glide.with(context)
                 .load(product.getImageUrl())
                 .placeholder(R.drawable.image_placeholder_bg)
@@ -79,47 +82,57 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 .centerCrop()
                 .into(holder.imgProduct);
 
+
+//        role specific
+        if(userRole.equals("vendor") || userRole.equals("admin")) {
+            String categoryText = product.getCategory() != null ? product.getCategory()
+                    : product.getSubcategory() != null ? product.getSubcategory()
+                    : "Uncategorized";
+            holder.txtCategory.setText(categoryText);
+            holder.btnEdit.setOnClickListener(v -> {
+                Intent i = new Intent(context, EditProductActivity.class);
+                i.putExtra("productId", product.getProductId());
+                context.startActivity(i);
+            });
+
+            holder.btnDelete.setOnClickListener(v -> {
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Product")
+                        .setMessage("Are you sure you want to delete \"" + product.getProductName() + "\"?")
+                        .setPositiveButton("Delete", (dialog, which) -> {
+
+                            int currentPos = holder.getAdapterPosition();
+
+                            if (currentPos == RecyclerView.NO_ID) return;
+
+                            productController.deleteProduct(product.getProductId(), new ProductController.DeleteCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    products.remove(product);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "Product deleted ", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(String error) {
+                                    Toast.makeText(context, "Delete failed: " + error, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            });
+
+
+        }else if(userRole.equals("moderator")) {
+            holder.btnEdit.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.GONE);
+        }
+
         holder.itemView.setOnClickListener(v -> {
             Intent i = new Intent(context, SingleProductActivity.class);
             i.putExtra("productId", product.getProductId());
             context.startActivity(i);
-        });
-
-        holder.btnEdit.setOnClickListener(v -> {
-            Intent i = new Intent(context, EditProductActivity.class);
-            i.putExtra("productId", product.getProductId());
-            context.startActivity(i);
-        });
-
-        holder.btnDelete.setOnClickListener(v -> {
-            new AlertDialog.Builder(context)
-                    .setTitle("Delete Product")
-                    .setMessage("Are you sure you want to delete \"" + product.getProductName() + "\"?")
-                    .setPositiveButton("Delete", (dialog, which) -> {
-
-                        // ✅ Get fresh position INSIDE the callback
-                        int currentPos = holder.getAdapterPosition();
-
-                        // ✅ Guard: if position is invalid, do nothing
-                        if (currentPos == RecyclerView.NO_ID) return;
-
-                        productController.deleteProduct(product.getProductId(), new ProductController.DeleteCallback() {
-                            @Override
-                            public void onSuccess() {
-                                // ✅ Remove by OBJECT not index — safest approach
-                                products.remove(product);
-                                notifyDataSetChanged();
-                                Toast.makeText(context, "Product deleted ✓", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onFailure(String error) {
-                                Toast.makeText(context, "Delete failed: " + error, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
         });
     }
 

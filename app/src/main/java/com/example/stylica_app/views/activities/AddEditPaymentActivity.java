@@ -20,7 +20,7 @@ import com.example.stylica_app.services.DatabaseService;
 
 public class AddEditPaymentActivity extends BaseActivity {
 
-    // Views
+
     TextView chipCard, chipJazzcash, chipEasypaisa;
     EditText edtAccountTitle, edtAccountNumber, edtInstructions;
     Button btnSave;
@@ -28,20 +28,16 @@ public class AddEditPaymentActivity extends BaseActivity {
 
     PaymentController paymentController;
 
-    String selectedType = "card"; // default
+    String selectedType = "account";
     boolean isEdit = false;
     String paymentId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_add_edit_payment);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         // Check if edit mode
         isEdit    = getIntent().getBooleanExtra("isEdit", false);
@@ -87,8 +83,8 @@ public class AddEditPaymentActivity extends BaseActivity {
     // Chip selection logic
     private void setupTypeChips() {
         chipCard.setOnClickListener(v -> {
-            selectedType = "card";
-            updateChips("card");
+            selectedType = "account";
+            updateChips("account");
         });
 
         chipJazzcash.setOnClickListener(v -> {
@@ -102,7 +98,7 @@ public class AddEditPaymentActivity extends BaseActivity {
         });
     }
 
-    // Update chip UI — selected vs unselected
+    // Update chip UI — selected and un-selected unselected
     private void updateChips(String selected) {
         // Reset all
         chipCard.setBackgroundResource(R.drawable.chip_unselected_bg);
@@ -114,7 +110,7 @@ public class AddEditPaymentActivity extends BaseActivity {
 
         // Highlight selected
         switch (selected) {
-            case "card":
+            case "account":
                 chipCard.setBackgroundResource(R.drawable.chip_selected_bg);
                 chipCard.setTextColor(getColor(R.color.text_white));
                 break;
@@ -152,7 +148,7 @@ public class AddEditPaymentActivity extends BaseActivity {
                         public void onSuccess() {
                             processing(false);
                             Toast.makeText(AddEditPaymentActivity.this,
-                                    "Updated successfully ✓", Toast.LENGTH_SHORT).show();
+                                    "Updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         }
 
@@ -174,7 +170,7 @@ public class AddEditPaymentActivity extends BaseActivity {
                         public void onSuccess(String data) {
                             processing(false);
                             Toast.makeText(AddEditPaymentActivity.this,
-                                    "Payment method added ✓", Toast.LENGTH_SHORT).show();
+                                    "Payment method added", Toast.LENGTH_SHORT).show();
                             finish();
                         }
 

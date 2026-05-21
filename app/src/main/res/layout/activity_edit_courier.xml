@@ -8,7 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light_variant_20"
-    tools:context=".views.activities.EditCategoryActivity">
+    tools:context=".views.activities.EditCategoryActivity"
+    android:fitsSystemWindows="true"
+    >
 
     <!-- 🔹 Custom App Bar -->
     <include layout="@layout/custom_app_bar"/>
@@ -55,7 +57,23 @@
             android:inputType="textEmailAddress"
             android:hint="Enter Email"
             android:padding="15dp" />
-
+        <EditText
+            android:id="@+id/edtDeliveryCharges"
+            style="@style/InputFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:inputType="numberDecimal"
+            android:hint="Enter Delivery Charges"
+            android:padding="15dp" />
+        <EditText
+            android:id="@+id/edtDeliveryDays"
+            style="@style/InputFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:hint="Expected Delivery Days e.g (7 to 8 days)"
+            android:padding="15dp"/>
 
 
         <Button
@@ -66,12 +84,12 @@
             android:visibility="visible"
             android:text="Update Category"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:onClick="updateCategory"
             />
         <ProgressBar
             android:id="@+id/loader"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:visibility="gone"
             android:layout_width="wrap_content"

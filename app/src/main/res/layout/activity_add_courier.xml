@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/primary_light_variant_20"
     android:orientation="vertical"
-    tools:context=".views.activities.AddCourierActivity">
+    tools:context=".views.activities.AddCourierActivity"
+    android:fitsSystemWindows="true"
+    >
 
     <include layout="@layout/custom_app_bar"/>
 
@@ -69,6 +71,24 @@
                 android:inputType="textEmailAddress"
                 android:hint="Enter Email"
                 android:padding="15dp" />
+
+            <EditText
+                android:id="@+id/edtDeliveryCharges"
+                style="@style/InputFieldStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:hint="Delivery Charges (Rs)"
+                android:inputType="numberDecimal"
+                android:padding="15dp"/>
+            <EditText
+                android:id="@+id/edtDeliveryDays"
+                style="@style/InputFieldStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:hint="Expected Delivery Days e.g (7 to 8 days)"
+                android:padding="15dp"/>
 
 
             <Button

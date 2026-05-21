@@ -29,6 +29,9 @@ public class ProductModel {
     private double[] reviews;
     private int reviewCount;
 
+    private String rejectionReason;
+
+
     @ServerTimestamp
     private Timestamp createdAt;
     @ServerTimestamp
@@ -173,6 +176,8 @@ public class ProductModel {
     public void setReviewCount(int reviewCount) {
         this.reviewCount = reviewCount;
     }
+    public String getRejectionReason() { return rejectionReason; }
+    public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -208,6 +213,7 @@ public class ProductModel {
                 ", userName='" + userName + '\'' +
                 ", reviews=" + Arrays.toString(reviews) +
                 ", reviewCount=" + reviewCount +
+                ", rejection reason=" + rejectionReason +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
