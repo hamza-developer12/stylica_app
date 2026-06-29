@@ -29,7 +29,6 @@ public class SessionActivity extends AppCompatActivity {
                     i = new Intent(context, CustomerDashboardActivity.class);
                     break;
                 default:
-
                     break;
             }
         } else if (isLoggedIn && verificationStatus.equals("pending")) {

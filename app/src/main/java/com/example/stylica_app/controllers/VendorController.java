@@ -92,9 +92,12 @@ public class VendorController extends UserController{
         dbService.deleteById(COLLECTION, userId, callback);
     }
 
+
     public interface VendorCallback {
         void onSuccess(String message);
         void onFailure(String errorMessage);
         void onApiError(JSONObject error);
+
+
     }
 }

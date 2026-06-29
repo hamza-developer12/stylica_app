@@ -64,6 +64,8 @@ public class AdminDashboardActivity extends DashboardHeaderComponent {
         setupHeader(fname,"Admin", ()->{
             adminController.logout(AdminDashboardActivity.this);
         });
+
+
     }
 
     private void initializeCards() {

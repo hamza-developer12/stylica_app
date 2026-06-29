@@ -10,6 +10,7 @@ public final class AuthService {
     private final FirebaseAuth auth;
 
 
+
     public AuthService(FirebaseAuth auth) {
         this.auth = auth;
     }
@@ -44,6 +45,7 @@ public final class AuthService {
             }
         });
     }
+
 
     public interface AuthCallback {
         void onSuccess(FirebaseUser user);

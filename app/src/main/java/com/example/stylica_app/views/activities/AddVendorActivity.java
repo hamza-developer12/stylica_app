@@ -116,6 +116,7 @@ public class AddVendorActivity extends BaseActivity {
 
             @Override
             public void onFailure(String errorMessage) {
+                Log.d("USER_EXISTS",errorMessage);
                 Toast.makeText(AddVendorActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 loader.setVisibility(View.GONE);
                 btnSubmit.setVisibility(View.VISIBLE);

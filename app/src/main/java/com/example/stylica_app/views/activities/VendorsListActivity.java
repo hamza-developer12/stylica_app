@@ -70,6 +70,7 @@ public class VendorsListActivity extends BaseActivity {
             Intent i = new Intent(VendorsListActivity.this, AddVendorActivity.class);
             startActivity(i);
         });
+
     }
 
 

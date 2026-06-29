@@ -49,9 +49,9 @@
         <activity
             android:name=".views.activities.AdminOrdersActivity"
             android:exported="false" />
-        <activity
-            android:name=".views.activities.PendingPaymentsVerificationListActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".views.activities.PendingPaymentsVerificationListActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".views.activities.PendingUsersActivity"
             android:exported="false" />

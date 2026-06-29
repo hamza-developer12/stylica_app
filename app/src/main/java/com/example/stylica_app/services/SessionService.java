@@ -16,6 +16,8 @@ public class SessionService {
     private static final String KEY_USER_NAME = "name";
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
+
+
     public SessionService(Context context){
         prefs = context.getSharedPreferences(PREF_NAME,context.MODE_PRIVATE);
         editor = prefs.edit();
