@@ -309,9 +309,9 @@ public class AddProductActivity extends BaseActivity {
                             userName,
                             isNewArrival,
                             isFeatured,
-                            new DatabaseService.DatabaseCallback<ProductModel>() {
+                            new DatabaseService.DatabaseCallback<String>() {
                                 @Override
-                                public void onSuccess(ProductModel data) {
+                                public void onSuccess(String data) {
                                     processing(false);
                                     Toast.makeText(AddProductActivity.this, "Product Added Successfully", Toast.LENGTH_SHORT).show();
                                     finish();

@@ -173,11 +173,22 @@ public class ProductController {
 
     public void getAllProductsWhere(DatabaseService.RealtimeCallback callback) {
         String userId = sessionService.getUserId();
+        String role = sessionService.getUserRole();
+        String domain = sessionService.getDomain();
         Map conditions = new HashMap();
         conditions.put("status","approved");
-        if(userId != null) {
-            conditions.put("userId", userId);
+
+//        for moderator...
+        if(role.equals("moderator")) {
+            conditions.put("category", domain);
         }
+//        for vendor......
+        if(role.equals("vendor")) {
+            if(userId != null) {
+                conditions.put("userId", userId);
+            }
+        }
+
         dbService.listenWhere(COLLECTION,conditions, ProductModel.class,callback);
     }
 

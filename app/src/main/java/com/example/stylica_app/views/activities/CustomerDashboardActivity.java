@@ -215,6 +215,7 @@ public class CustomerDashboardActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(List<CategoryModel> data) {
                         categoryChips.removeAllViews();
+//
                         for (CategoryModel cat : data) {
                             addCategoryChip(cat.getCategoryName());
                         }
@@ -228,6 +229,7 @@ public class CustomerDashboardActivity extends AppCompatActivity {
     private void loadProducts() {
         loaderBestSellers.setVisibility(View.VISIBLE);
         loaderNewArrivals.setVisibility(View.VISIBLE);
+//        Fetch Featured Products
         productController.getLimitedProducts("featured", true, 4, new DatabaseService.DatabaseCallback<List<ProductModel>>() {
             @Override
             public void onSuccess(List<ProductModel> data) {
@@ -244,6 +246,7 @@ public class CustomerDashboardActivity extends AppCompatActivity {
             }
         });
 
+//        New Products Fetching
         productController.getLimitedProducts("new", true, 4, new DatabaseService.DatabaseCallback<List<ProductModel>>() {
             @Override
             public void onSuccess(List<ProductModel> data) {
@@ -260,6 +263,7 @@ public class CustomerDashboardActivity extends AppCompatActivity {
         });
     }
 
+//    Category Chips....
     private void addCategoryChip(String categoryName) {
         LinearLayout chip = new LinearLayout(this);
         chip.setOrientation(LinearLayout.VERTICAL);

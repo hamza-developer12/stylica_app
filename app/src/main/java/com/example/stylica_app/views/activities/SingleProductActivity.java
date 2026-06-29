@@ -121,7 +121,9 @@ public class SingleProductActivity extends AppCompatActivity {
         if (stock > 0) {
             txtStock.setText("In Stock: " + stock);
             txtStock.setTextColor(getColor(R.color.success));
+            btnAddToCart.setVisibility(View.VISIBLE);
         } else {
+            btnAddToCart.setVisibility(View.GONE);
             txtStock.setText("Out of Stock");
             txtStock.setTextColor(getColor(R.color.error));
         }

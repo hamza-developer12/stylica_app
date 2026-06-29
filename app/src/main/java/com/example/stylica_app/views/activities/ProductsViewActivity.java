@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -136,11 +137,13 @@ public class ProductsViewActivity extends BaseActivity {
     }
 
     private void fetchProducts() {
+//        for vendor and moderator....
         if (role.equals("moderator") || role.equals("vendor")) {
             productController.getAllProductsWhere(
                     new DatabaseService.RealtimeCallback<List<ProductModel>>() {
                         @Override
                         public void onDataChange(List<ProductModel> data) {
+                            Log.d("PRODUCTS_RECEIVED1", "Products received: " + data.size());
                             loading(false);
                             if (data == null) return;
                             allProducts = new ArrayList<>(data);
@@ -158,6 +161,7 @@ public class ProductsViewActivity extends BaseActivity {
                     new DatabaseService.RealtimeCallback<List<ProductModel>>() {
                         @Override
                         public void onDataChange(List<ProductModel> data) {
+                            Log.d("PRODUCTS_RECEIVED1", "Products received: " + data.size());
                             loading(false);
                             if (data == null) return;
                             allProducts = new ArrayList<>(data);

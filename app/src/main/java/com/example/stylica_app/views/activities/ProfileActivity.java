@@ -133,12 +133,24 @@ public class ProfileActivity extends BaseActivity {
         txtAddress.setText(user.getAddress() != null
                 ? user.getAddress() : "—");
 
-        if ("moderator".equalsIgnoreCase(user.getRole())) {
-            professionalSection.setVisibility(View.VISIBLE);
-            txtDomain.setText(user.getDomain() != null
-                    ? user.getDomain() : "—");
-        } else {
+        if(user.getRole().equalsIgnoreCase("customer")) {
             professionalSection.setVisibility(View.GONE);
+        }else {
+            professionalSection.setVisibility(View.VISIBLE);
+            txtDomain.setText(user.getDomain());
         }
+//        if(isViewingOther) {
+//            professionalSection.setVisibility(View.VISIBLE);
+//            txtDomain.setText(user.getDomain());
+//        }else {
+//            professionalSection.setVisibility(View.GONE);
+//        }
+//        if ("moderator".equalsIgnoreCase(user.getRole()) || "admin".equalsIgnoreCase(user.getRole())) {
+//            professionalSection.setVisibility(View.VISIBLE);
+//            txtDomain.setText(user.getDomain() != null
+//                    ? user.getDomain() : "—");
+//        } else {
+//            professionalSection.setVisibility(View.GONE);
+//        }
     }
 }
