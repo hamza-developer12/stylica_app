@@ -183,6 +183,7 @@ public class CustomerDashboardActivity extends AppCompatActivity {
     }
 
     private void setupNavMenu() {
+
         navigationView.setNavigationItemSelectedListener(item -> {
             drawerLayout.closeDrawer(GravityCompat.START);
 
